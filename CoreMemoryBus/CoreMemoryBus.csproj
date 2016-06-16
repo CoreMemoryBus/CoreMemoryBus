@@ -38,7 +38,6 @@
     <Compile Include="DataStructures\IHashSetDictionary.cs" />
     <Compile Include="DataStructures\ISetGrouping.cs" />
     <Compile Include="DataStructures\MaxCapacityException.cs" />
-    <Compile Include="DataStructures\PairingHeap.cs" />
     <Compile Include="Handlers\TimedMessageHandler.cs" />
     <Compile Include="Messages\IUniqueMessage.cs" />
     <Compile Include="Messages\MessageTimer.cs" />
