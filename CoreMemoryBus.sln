@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMemoryBus", "CoreMemoryBus\CoreMemoryBus.csproj", "{E4AD8F3D-C787-40E0-964C-BF29CA8465D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMemoryBus.Test", "CoreMemoryBus.Test\CoreMemoryBus.Test.csproj", "{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMemoryBus.Message", "CoreMemoryBus.Message\CoreMemoryBus.Message.csproj", "{E604E6EF-EDDC-405F-851F-DCE6978418FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4AD8F3D-C787-40E0-964C-BF29CA8465D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4AD8F3D-C787-40E0-964C-BF29CA8465D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4AD8F3D-C787-40E0-964C-BF29CA8465D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4AD8F3D-C787-40E0-964C-BF29CA8465D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E604E6EF-EDDC-405F-851F-DCE6978418FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E604E6EF-EDDC-405F-851F-DCE6978418FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E604E6EF-EDDC-405F-851F-DCE6978418FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E604E6EF-EDDC-405F-851F-DCE6978418FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
