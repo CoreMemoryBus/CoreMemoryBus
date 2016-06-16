@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreMemoryBus.Messages;
 using NUnit.Framework.Internal;
 
 namespace CoreMemoryBus.Test
@@ -9,14 +10,14 @@ namespace CoreMemoryBus.Test
             : base("MemoryBusSuite")
         { }
 
-        public class TestMessage : Messages {
+        public class TestMessage : Message {
             public bool IsHandledOne { get; set; }
             public bool IsHandledTwo { get; set; }
 
             public int HandlingCount { get; set; }
         }
 
-        public class TestMessageHandler<TMessage> : IHandle<TMessage> where TMessage : Messages.Message
+        public class TestMessageHandler<TMessage> : IHandle<TMessage> where TMessage : Message
         {
             private Action<TMessage> Action { get; set; }
 
