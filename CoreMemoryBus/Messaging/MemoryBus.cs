@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
 using CoreMemoryBus.Logger;
+using CoreMemoryBus.Messages;
 using CoreMemoryBus.PublishingStrategies;
 using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Messaging
 {
-    public class MemoryBus : IPublisher, ISubscriber, IHandle<Messages.Message>
+    public class MemoryBus : IPublisher, ISubscriber, IHandle<Message>
     {
         protected ILogger Logger { get; private set; }
 
@@ -25,7 +26,7 @@ namespace CoreMemoryBus.Messaging
                 : publishingStrategyFactory(_messageHandlers);
         }
 
-        public void Publish(Messages.Message message)
+        public void Publish(Message message)
         {
             Ensure.ArgumentIsNotNull(message, "message");
 
@@ -35,7 +36,7 @@ namespace CoreMemoryBus.Messaging
         private readonly MessageHandlerDictionary _messageHandlers;
         private readonly IPublishingStrategy _publishingStrategy;
 
-        public void Subscribe<T>(IHandle<T> messageHandler) where T : Messages.Message
+        public void Subscribe<T>(IHandle<T> messageHandler) where T : Message
         {
             Ensure.ArgumentIsNotNull(messageHandler, "messageHandler");
 
@@ -75,7 +76,7 @@ namespace CoreMemoryBus.Messaging
             }
         }
 
-        public void Unsubscribe<T>(IHandle<T> messageHandler) where T : Messages.Message
+        public void Unsubscribe<T>(IHandle<T> messageHandler) where T : Message
         {
             Ensure.ArgumentIsNotNull(messageHandler, "messageHandler");
 
@@ -95,7 +96,7 @@ namespace CoreMemoryBus.Messaging
             }
         }
 
-        public void Handle(Messages.Message message)
+        public void Handle(Message message)
         {
             Publish(message);
         }

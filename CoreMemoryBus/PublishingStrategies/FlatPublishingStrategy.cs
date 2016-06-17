@@ -1,4 +1,5 @@
-﻿using CoreMemoryBus.Messaging;
+﻿using CoreMemoryBus.Messages;
+using CoreMemoryBus.Messaging;
 
 namespace CoreMemoryBus.PublishingStrategies
 {
@@ -8,7 +9,7 @@ namespace CoreMemoryBus.PublishingStrategies
             : base(messageHandlers)
         { }
 
-        public void Publish(Messages.Message message)
+        public void Publish(Message message)
         {
             PublishToProxies(message, message.GetType());
         }

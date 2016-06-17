@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using CoreMemoryBus.Sagas;
 using CoreMemoryBus.Util;
@@ -12,7 +13,7 @@ namespace CoreMemoryBus.Test
     {
         public static class SagaMessages
         {
-            public class CreateSaga : Messages.Message, ICorrelatedMessage
+            public class CreateSaga : Message, ICorrelatedMessage
             {
                 public Guid CorrelationId { get; private set; }
 
@@ -21,7 +22,7 @@ namespace CoreMemoryBus.Test
                     CorrelationId = correlationId;
                 }
             }
-            public class CreateSagaWithValue : Messages.Message, ICorrelatedMessage
+            public class CreateSagaWithValue : Message, ICorrelatedMessage
             {
                 public Guid CorrelationId { get; private set; }
                 public int Value { get; private set; }
@@ -33,7 +34,7 @@ namespace CoreMemoryBus.Test
                 }
             }
 
-            public class AddSagaData : Messages.Message, ICorrelatedMessage
+            public class AddSagaData : Message, ICorrelatedMessage
             {
                 public Guid CorrelationId { get; private set; }
                 public int Value { get; private set; }
@@ -45,7 +46,7 @@ namespace CoreMemoryBus.Test
                 }
             }
 
-            public class CompleteSaga : Messages.Message, ICorrelatedMessage
+            public class CompleteSaga : Message, ICorrelatedMessage
             {
                 public Guid CorrelationId { get; private set; }
 

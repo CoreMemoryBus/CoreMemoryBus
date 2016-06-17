@@ -13,10 +13,10 @@ namespace CoreMemoryBus.Test
         {
             public class TestPublishingStrategy : IPublishingStrategy
             {
-                public void Publish(Messages.Message message) {}
+                public void Publish(Message message) {}
             }
 
-            public class PooledMessage : Messages.Message, IPooledMessage
+            public class PooledMessage : Message, IPooledMessage
             {
                 private readonly ObjectPool<PooledMessage> _owner;
 

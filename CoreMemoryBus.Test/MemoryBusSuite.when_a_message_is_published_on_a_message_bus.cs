@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using NUnit.Framework;
 
@@ -16,7 +17,7 @@ namespace CoreMemoryBus.Test
                 Assert.Throws<ArgumentNullException>(() => theMessageBus.Publish((TestMessage)null));
             }
 
-            public class OtherMessage : Messages.Message { }
+            public class OtherMessage : Message { }
 
             [Test]
             public void a_message_handler_will_not_respond_if_it_does_not_handle_the_message()
@@ -59,7 +60,7 @@ namespace CoreMemoryBus.Test
                 Assert.That(m.HandlingCount, Is.EqualTo(1));
             }
 
-            public class BaseMessage : Messages.Message { public bool BaseHandled { get; set; } }
+            public class BaseMessage : Message { public bool BaseHandled { get; set; } }
 
             public class DerivedMessage : BaseMessage { public bool DerivedHandled { get; set; } }
 

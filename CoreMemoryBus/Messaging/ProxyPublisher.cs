@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoreMemoryBus.Messages;
 using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Messaging
@@ -11,7 +12,7 @@ namespace CoreMemoryBus.Messaging
 
         Dictionary<Type, IMessageHandlerProxy> _proxies;
 
-        public void Publish(Messages.Message msg)
+        public void Publish(Message msg)
         {
             if (_proxies == null)
             {

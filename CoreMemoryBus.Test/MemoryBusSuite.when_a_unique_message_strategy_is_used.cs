@@ -22,7 +22,7 @@ namespace CoreMemoryBus.Test
                 Assert.That(executionCount, Is.EqualTo(2));
             }
 
-            public class TestUniqueMessage : Messages.Message, IUniqueMessage
+            public class TestUniqueMessage : Message, IUniqueMessage
             {
                 public TestUniqueMessage(Guid id)
                 {

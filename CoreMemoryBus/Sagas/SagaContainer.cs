@@ -6,7 +6,7 @@ using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Sagas
 {
-    public class SagaContainer<TSaga> : IHandle<Messages.Message>, IEnumerable<ISaga>
+    public class SagaContainer<TSaga> : IHandle<Message>, IEnumerable<ISaga>
         where TSaga : ISaga
     {
         private readonly Dictionary<Guid, ISaga> _sagaInstances = new Dictionary<Guid, ISaga>();
@@ -30,7 +30,7 @@ namespace CoreMemoryBus.Sagas
 
         protected Func<Message, ISaga> SagaFactory { get; private set; }
 
-        public void Handle(Messages.Message message)
+        public void Handle(Message message)
         {
             var sagaMessage = message as ICorrelatedMessage;
             if (sagaMessage != null)

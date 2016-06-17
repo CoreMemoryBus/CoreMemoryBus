@@ -5,7 +5,7 @@ namespace CoreMemoryBus
 {
     public static class MessageTimer
     {
-        public class SetLoggingThreshold : Messages.Message, IUniqueMessage
+        public class SetLoggingThreshold : Message, IUniqueMessage
         {
             public SetLoggingThreshold(Guid id, TimeSpan loggingThreshold)
             {

@@ -1,7 +1,9 @@
-﻿namespace CoreMemoryBus.Messaging
+﻿using CoreMemoryBus.Messages;
+
+namespace CoreMemoryBus.Messaging
 {
     public interface IPublisher
     {
-        void Publish(Messages.Message message);
+        void Publish(Message message);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using CoreMemoryBus.Logger;
+using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using CoreMemoryBus.PublishingStrategies;
 using CoreMemoryBus.Util;
@@ -19,7 +20,7 @@ namespace CoreMemoryBus.Test
                 TestAction = testAction;
             }
 
-            public void Publish(Messages.Message message)
+            public void Publish(Message message)
             {
                 TestAction();
             }
@@ -47,7 +48,7 @@ namespace CoreMemoryBus.Test
                 Assert.IsTrue(hasExecuted);
             }
 
-            public class TestAccessControlledMessage : Messages.Message, IAccessControlledMessage
+            public class TestAccessControlledMessage : Message, IAccessControlledMessage
             {
                 public TestAccessControlledMessage(string[] principals)
                 {

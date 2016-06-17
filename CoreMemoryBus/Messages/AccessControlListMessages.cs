@@ -48,7 +48,7 @@ namespace CoreMemoryBus.PublishingStrategies
             { }
         }
 
-        public class InitialiseAccessControlList : Messages.Message, IUniqueMessage
+        public class InitialiseAccessControlList : Message, IUniqueMessage
         {
             public readonly List<AccessControlCommand> AclCommands = new List<AccessControlCommand>();
 
