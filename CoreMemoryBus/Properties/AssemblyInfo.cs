@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CoreMemoryBus")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A simple and configurable, in-memory message bus for message based event driven applications.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MacRobert.com")]
 [assembly: AssemblyProduct("CoreMemoryBus")]
