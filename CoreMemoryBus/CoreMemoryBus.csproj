@@ -90,6 +90,7 @@
     <Compile Include="Util\PubSubCommon.cs" />
     <Compile Include="Util\Stopwatch.cs" />
     <Compile Include="Util\StringEnumerableExtensions.cs" />
+    <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoreMemoryBus.Message\CoreMemoryBus.Message.csproj">

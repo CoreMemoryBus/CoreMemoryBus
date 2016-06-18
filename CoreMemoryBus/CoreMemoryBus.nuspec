@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/CoreMemoryBus/CoreMemoryBus</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <releaseNotes>Initial Release</releaseNotes>
     <copyright>Copyright 2016</copyright>
-    <tags>CQRS Protobuf MemoryBus</tags>
+    <tags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</tags>
   </metadata>
 </package>
