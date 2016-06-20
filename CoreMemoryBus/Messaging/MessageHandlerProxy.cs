@@ -16,7 +16,7 @@ namespace CoreMemoryBus.Messaging
             MessageHandler.Handle((T)message);
         }
 
-        public bool IsSame<T1>(object messageHandler)
+        public bool IsSame(object messageHandler)
         {
             return ReferenceEquals(MessageHandler, messageHandler);
         }

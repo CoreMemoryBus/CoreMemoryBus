@@ -47,7 +47,7 @@ namespace CoreMemoryBus.Messaging
                 _messageHandlers.Add(typeof(T), proxies);
             }
 
-            if (!proxies.Any(p => p.IsSame<T>(messageHandler)))
+            if (!proxies.Any(p => p.IsSame(messageHandler)))
             {
                 proxies.Add(new MessageHandlerProxy<T>(messageHandler));
             }
@@ -55,6 +55,8 @@ namespace CoreMemoryBus.Messaging
 
         public void Subscribe(object messageHandler)
         {
+            Ensure.ArgumentIsNotNull(messageHandler, "messageHandler");
+
             var handlerTypes = PubSubCommon.GetMessageHandlerInterfaces(messageHandler.GetType().GetInterfaces());
             foreach (var handlerType in handlerTypes)
             {
@@ -69,7 +71,7 @@ namespace CoreMemoryBus.Messaging
                     _messageHandlers.Add(msgType, proxies);
                 }
 
-                if (!proxies.Any(p => ReferenceEquals(p, messageHandler)))
+                if (!proxies.Any(p => p.IsSame(messageHandler)))
                 {
                     proxies.Add(handlerProxy);
                 }
@@ -84,13 +86,37 @@ namespace CoreMemoryBus.Messaging
             MessageHandlerProxies proxies;
             if (_messageHandlers.TryGetValue(msgType, out proxies))
             {
-                var proxy = proxies.FirstOrDefault(p => p.IsSame<T>(messageHandler));
+                var proxy = proxies.FirstOrDefault(p => p.IsSame(messageHandler));
                 if (proxy != null)
                 {
                     proxies.Remove(proxy);
                     if (proxies.Count == 0)
                     {
                         _messageHandlers.Remove(msgType);
+                    }
+                }
+            }
+        }
+
+        public void Unsubscribe(object messageHandler)
+        {
+            Ensure.ArgumentIsNotNull(messageHandler, "messageHandler");
+
+            var handlerTypes = PubSubCommon.GetMessageHandlerInterfaces(messageHandler.GetType().GetInterfaces());
+            foreach (var handlerType in handlerTypes)
+            {
+                var msgType = handlerType.GetGenericArguments()[0];
+                MessageHandlerProxies proxies;
+                if (_messageHandlers.TryGetValue(msgType, out proxies))
+                {
+                    var proxy = proxies.FirstOrDefault(p => p.IsSame(messageHandler));
+                    if (proxy != null)
+                    {
+                        proxies.Remove(proxy);
+                        if (proxies.Count == 0)
+                        {
+                            _messageHandlers.Remove(msgType);
+                        }
                     }
                 }
             }

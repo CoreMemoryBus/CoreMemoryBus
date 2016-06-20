@@ -8,3 +8,7 @@ It strongly draws from the EventStore message bus design while adding useful, co
 We'll port this to .NET Core when the dust settles.
 
 I hope you find it as useful as I have.
+
+## Getting Started
+
+Install the [NuGet package](https://www.nuget.org/packages/CoreMemoryBus).

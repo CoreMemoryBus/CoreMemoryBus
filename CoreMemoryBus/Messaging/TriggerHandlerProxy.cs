@@ -23,7 +23,7 @@ namespace CoreMemoryBus.Messaging
             _trigger.Handle((T)message);
         }
 
-        public bool IsSame<T1>(object trigger)
+        public bool IsSame(object trigger)
         {
             return ReferenceEquals(_trigger, trigger);
         }
