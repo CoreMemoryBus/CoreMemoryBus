@@ -8,9 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CoreMemoryBus")]
 [assembly: AssemblyDescription("A simple and configurable, in-memory message bus for message based event driven applications.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MacRobert.com")]
 [assembly: AssemblyProduct("CoreMemoryBus")]
-[assembly: AssemblyCopyright("Copyright © MacRobert.com 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,11 +20,5 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("c5da4987-54eb-4db4-adbb-afa4d2cc0f7a")]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
+
 
