@@ -45,6 +45,7 @@
     <Compile Include="Messages\ProcessException.cs" />
     <Compile Include="Messaging\IReplyEnvelope.cs" />
     <Compile Include="Messaging\PublisherReplyEnvelope.cs" />
+    <Compile Include="Messaging\RequestResponseHandler.cs" />
     <Compile Include="PublishingStrategies\AccessControlListStrategyDecorator.cs" />
     <Compile Include="Handlers\AccessControlListHandler.cs" />
     <Compile Include="Messages\AccessControlListMessages.cs" />
