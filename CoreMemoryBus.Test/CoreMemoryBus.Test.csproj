@@ -62,10 +62,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreMemoryBus.Message\CoreMemoryBus.Message.csproj">
-      <Project>{e604e6ef-eddc-405f-851f-dce6978418ff}</Project>
-      <Name>CoreMemoryBus.Message</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CoreMemoryBus\CoreMemoryBus.csproj">
       <Project>{E4AD8F3D-C787-40E0-964C-BF29CA8465D7}</Project>
       <Name>CoreMemoryBus</Name>

@@ -40,6 +40,7 @@
     <Compile Include="DataStructures\MaxCapacityException.cs" />
     <Compile Include="Handlers\TimedMessageHandler.cs" />
     <Compile Include="Messages\IUniqueMessage.cs" />
+    <Compile Include="Messages\Message.cs" />
     <Compile Include="Messages\MessageTimer.cs" />
     <Compile Include="Messages\ProcessException.cs" />
     <Compile Include="Messaging\IReplyEnvelope.cs" />
@@ -91,12 +92,6 @@
     <Compile Include="Util\Stopwatch.cs" />
     <Compile Include="Util\StringEnumerableExtensions.cs" />
     <Compile Include="Version.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CoreMemoryBus.Message\CoreMemoryBus.Message.csproj">
-      <Project>{e604e6ef-eddc-405f-851f-dce6978418ff}</Project>
-      <Name>CoreMemoryBus.Message</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="CoreMemoryBus.nuspec" />

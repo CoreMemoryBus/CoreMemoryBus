@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMemoryBus", "CoreMemory
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMemoryBus.Test", "CoreMemoryBus.Test\CoreMemoryBus.Test.csproj", "{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMemoryBus.Message", "CoreMemoryBus.Message\CoreMemoryBus.Message.csproj", "{E604E6EF-EDDC-405F-851F-DCE6978418FF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Markdown", "Markdown", "{7C91E280-3AD6-45B5-8875-984191C07238}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.md = LICENSE.md
@@ -29,10 +27,6 @@ Global
 		{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF8D9C1C-23A2-4891-A5CA-4B1E93C02689}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E604E6EF-EDDC-405F-851F-DCE6978418FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E604E6EF-EDDC-405F-851F-DCE6978418FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E604E6EF-EDDC-405F-851F-DCE6978418FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E604E6EF-EDDC-405F-851F-DCE6978418FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
