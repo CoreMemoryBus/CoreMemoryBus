@@ -1,5 +1,7 @@
 #Core Memory Bus Licence
 
+[![GitHub license](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://raw.githubusercontent.com/CoreMemoryBus/CoreMemoryBus/master/LICENSE.md)
+
 Copyright (c) 2016, CoreMemoryBus
 All rights reserved.
 
