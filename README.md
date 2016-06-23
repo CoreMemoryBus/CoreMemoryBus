@@ -1,5 +1,6 @@
 # Core Memory Bus
 [![Build status](https://ci.appveyor.com/api/projects/status/9131ajlthj55apdx?svg=true)](https://ci.appveyor.com/project/machonky/corememorybus)
+[https://img.shields.io/nuget/v/CoreMemoryBus.svg](https://www.nuget.org/packages/CoreMemoryBus)
 
 A simple and easy-to-use, yet configurable in-memory message bus in C#.
 
