@@ -4,6 +4,14 @@ using CoreMemoryBus.Messages;
 
 namespace CoreMemoryBus.Messaging
 {
+    /// <summary>
+    /// A RequestResponseHandler manages a message publication where a single response is expected. 
+    /// As a reply message is received, it invokes a callback function which was nominated as the 
+    /// request message was published. Both the request and reply messages must implement ICorrelatedMessage.
+    /// The correlation Id is used to correlate a reply to a given request. The reply handler can only be 
+    /// invoked once. When a reply has been successfully called-back the reply handler will no longer 
+    /// activate with the same correlation Id.
+    /// </summary>
     public class RequestResponseHandler : IHandle<Message>
     {
         private readonly IPublisher _publisher;
@@ -16,7 +24,7 @@ namespace CoreMemoryBus.Messaging
         readonly Dictionary<Guid, IResponseAction> _responseActions = new Dictionary<Guid, IResponseAction>();
 
         public void Publish<TRequest, TResponse>(TRequest request, Action<TResponse> responseCallback) 
-            where TRequest : Message, ICorrelatedMessage 
+            where TRequest : Message, ICorrelatedMessage
             where TResponse : Message, ICorrelatedMessage
         {
             _responseActions[request.CorrelationId] = new ResponseAction<TResponse>(responseCallback);

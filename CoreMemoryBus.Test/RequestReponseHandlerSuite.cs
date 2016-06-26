@@ -2,12 +2,44 @@ using System;
 using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace CoreMemoryBus.Test
 {
-    [TestFixture]
-    public partial class RequestReponseHandlerSuite
+    public class RequestReponseHandlerSuite : TestSuite
     {
+        [TestFixture]
+        public class when_publishing_with_a_request_response_handler
+        {
+            [Test]
+            public void a_reply_handler_will_do_nothing_on_the_second_invocation()
+            {
+                var theMessageBus = new MemoryBus();
+                var requestReponse = new RequestResponseHandler(theMessageBus);
+                theMessageBus.Subscribe(requestReponse);
+
+                var guid = Guid.NewGuid();
+
+                theMessageBus.Subscribe(new CallerRequestHandler(theMessageBus));
+
+                var responder = new CallerReponseHandler();
+
+                //Invoke using the R/R handler instead of the bus.
+                Action<CallerResponseMessage> callback = responder.ResponseCallback;
+                requestReponse.Publish(new CallerRequestMessage(guid), callback);
+
+                Assert.That(responder.InvocationCount, Is.EqualTo(1));
+
+                // Try the same correlation again - it will do nothing this time.
+                theMessageBus.Publish(new CallerRequestMessage(guid));
+                Assert.That(responder.InvocationCount, Is.EqualTo(1));
+            }
+        }
+
+        public RequestReponseHandlerSuite()
+            : base("RequestReponseHandlerSuite")
+        { }
+
         class CallerRequestMessage : Message, ICorrelatedMessage
         {
             public CallerRequestMessage(Guid correlationId)
@@ -30,10 +62,10 @@ namespace CoreMemoryBus.Test
 
         class CallerReponseHandler
         {
-            public bool IsInvoked { get; private set; }
+            public int InvocationCount { get; private set; }
             public void ResponseCallback(CallerResponseMessage response)
             {
-                IsInvoked = true;
+                ++InvocationCount;
             }
         }
 
@@ -54,23 +86,6 @@ namespace CoreMemoryBus.Test
             }
         }
 
-        [Test]
-        public void TestRequestReponseHandler()
-        {
-            var theMessageBus = new MemoryBus();
-            var requestReponse = new RequestResponseHandler(theMessageBus);
-            theMessageBus.Subscribe(requestReponse);
 
-            var guid = Guid.NewGuid();
-
-            theMessageBus.Subscribe(new CallerRequestHandler(theMessageBus));
-
-            var responder = new CallerReponseHandler();
-
-            Action<CallerResponseMessage> callback = responder.ResponseCallback;
-            requestReponse.Publish(new CallerRequestMessage(guid), callback);
-
-            Assert.That(responder.IsInvoked, Is.True);
-        }        
     }
 }
