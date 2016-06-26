@@ -1,5 +1,10 @@
 # Core Memory Bus
 [![Build status](https://ci.appveyor.com/api/projects/status/9131ajlthj55apdx?svg=true)](https://ci.appveyor.com/project/machonky/corememorybus)
+[![GitHub issues](https://img.shields.io/github/issues/CoreMemoryBus/CoreMemoryBus.svg)](https://github.com/CoreMemoryBus/CoreMemoryBus/issues)
+[![Nuget](https://img.shields.io/nuget/v/CoreMemoryBus.svg)](https://www.nuget.org/packages/CoreMemoryBus)
+[![GitHub license](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://raw.githubusercontent.com/CoreMemoryBus/CoreMemoryBus/master/LICENSE.md)
+[![GitHub forks](https://img.shields.io/github/forks/CoreMemoryBus/CoreMemoryBus.svg?style=social&label=Fork)](https://github.com/CoreMemoryBus/CoreMemoryBus/network)
+[![GitHub stars](https://img.shields.io/github/stars/CoreMemoryBus/CoreMemoryBus.svg?style=social&label=Star)](https://github.com/CoreMemoryBus/CoreMemoryBus/stargazers)
 
 A simple and easy-to-use, yet configurable in-memory message bus in C#.
 
