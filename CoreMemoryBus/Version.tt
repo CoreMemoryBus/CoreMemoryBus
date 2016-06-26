@@ -19,5 +19,5 @@ using System.Reflection;
 [assembly: AssemblyVersion("1.0.4.<#= this.RevisionNumber #>")]
 [assembly: AssemblyFileVersion("1.0.4.<#= this.RevisionNumber #>")]
 <#+
-    int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2016,6,1)).TotalDays;
+    int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2016,6,1)).TotalDays; 
 #>

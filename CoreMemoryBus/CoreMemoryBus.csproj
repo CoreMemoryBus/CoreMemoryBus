@@ -92,7 +92,7 @@
     <Compile Include="Util\PubSubCommon.cs" />
     <Compile Include="Util\Stopwatch.cs" />
     <Compile Include="Util\StringEnumerableExtensions.cs" />
-    <Compile Include="Version1.cs">
+    <Compile Include="Version.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Version.tt</DependentUpon>
@@ -104,7 +104,7 @@
   <ItemGroup>
     <Content Include="Version.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Version1.cs</LastGenOutput>
+      <LastGenOutput>Version.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
