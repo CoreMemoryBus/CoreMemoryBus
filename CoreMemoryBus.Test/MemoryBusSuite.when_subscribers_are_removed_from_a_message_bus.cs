@@ -28,12 +28,6 @@ namespace CoreMemoryBus.Test
                 theMessageBus.Publish(new TestMessage());
                 Assert.That(isHandled, Is.False);
             }
-
-            [Test]
-            public void and_the_last_subscriber_is_removed_the_bus_no_longer_handles_the_message()
-            {
-
-            }
         }
     }
 }
