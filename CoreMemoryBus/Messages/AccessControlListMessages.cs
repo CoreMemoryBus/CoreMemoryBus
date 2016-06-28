@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreMemoryBus.Messages;
+using CoreMemoryBus.Messaging;
 
 namespace CoreMemoryBus.PublishingStrategies
 {
@@ -58,6 +59,36 @@ namespace CoreMemoryBus.PublishingStrategies
             }
 
             public Guid Id { get; private set; }
+        }
+
+        public class RequestAccessControlExplanation : Message, ICorrelatedMessage, IAccessControlMessage
+        {
+            public RequestAccessControlExplanation(Guid correlationId, string principal, Type type, IReplyEnvelope reply)
+            {
+                CorrelationId = correlationId;
+                Principal = principal;
+                Type = type;
+                Reply = reply;
+            }
+
+            public Guid CorrelationId { get; private set; }
+            public string Principal { get; private set; }
+            public Type Type { get; private set; }
+
+            public IReplyEnvelope Reply { get; private set; }
+        }
+
+        public class AccessControlExplanationResponse : Message, ICorrelatedMessage
+        {
+            public AccessControlExplanationResponse(Guid correlationId, string explanation)
+            {
+                CorrelationId = correlationId;
+                Explanation = explanation;
+            }
+
+            public Guid CorrelationId { get; private set; }
+
+            public string Explanation { get; private set; }
         }
     }
 }

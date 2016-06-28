@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CoreMemoryBus.Messaging;
 using CoreMemoryBus.PublishingStrategies;
 using CoreMemoryBus.Util;
@@ -10,7 +11,8 @@ namespace CoreMemoryBus.Handlers
                                             IHandle<AccessControlListMessages.RevokeGrant>,
                                             IHandle<AccessControlListMessages.Deny>,
                                             IHandle<AccessControlListMessages.RevokeDeny>,
-                                            IHandle<AccessControlListMessages.InitialiseAccessControlList>
+                                            IHandle<AccessControlListMessages.InitialiseAccessControlList>,
+                                            IHandle<AccessControlListMessages.RequestAccessControlExplanation>
     {
         private readonly List<IAccessControlList> _acls = new List<IAccessControlList>();
 
@@ -43,6 +45,17 @@ namespace CoreMemoryBus.Handlers
         public void Handle(AccessControlListMessages.InitialiseAccessControlList message)
         {
             message.AclCommands.ForEach(Publish);
+        }
+
+        public void Handle(AccessControlListMessages.RequestAccessControlExplanation message)
+        {
+            var firstAcl = _acls.FirstOrDefault();
+            if (firstAcl != null)
+            {
+                var explanation = firstAcl.Explain(new[] {message.Principal}, message.Type);
+                message.Reply.ReplyWith(
+                    new AccessControlListMessages.AccessControlExplanationResponse(message.CorrelationId, explanation));
+            }
         }
     }
 }
