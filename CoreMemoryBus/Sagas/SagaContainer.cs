@@ -6,6 +6,14 @@ using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Sagas
 {
+    /// <summary>
+    /// This class is responsible for managing the lifecycle of the Saga objects that it creates, as well as
+    /// being used to route messages from a MemoryBus into a specific Saga. Only messages implementing 
+    /// ICorrelatedMessage will be handled.
+    /// If a Saga has dependencies and cannot be constructed using a default constructor, a custom Saga 
+    /// object factory should be provided in the constructor.
+    /// </summary>
+    /// <typeparam name="TSaga"></typeparam>
     public class SagaContainer<TSaga> : IHandle<Message>, IEnumerable<ISaga>
         where TSaga : ISaga
     {

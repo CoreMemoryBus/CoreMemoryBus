@@ -5,6 +5,13 @@ using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Sagas
 {
+    /// <summary>
+    /// A Saga is used to handle events on workflows requiring multiple messages to bring the workflow to completion.
+    /// The saga is implemented by implementing at least 1 trigger via the IAmTriggeredBy interface and a succession of 
+    /// conventional message handlers via the IHandleInterface. Saga objects are contained within a SagaContainer which 
+    /// regulates their lifecycle. 
+    /// </summary>
+    /// <typeparam name="TDerived"></typeparam>
     public class Saga<TDerived> : ProxyPublisher<TDerived>
     {
         protected Saga()
