@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 
-namespace CoreMemoryBus.PublishingStrategies
+namespace CoreMemoryBus.Messages
 {
     public static class AccessControlListMessages
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreMemoryBus.PublishingStrategies
+namespace CoreMemoryBus.Messages
 {
     public interface IAccessControlMessage
     {

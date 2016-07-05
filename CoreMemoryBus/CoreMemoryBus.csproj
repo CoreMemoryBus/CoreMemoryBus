@@ -41,8 +41,10 @@
     <Compile Include="Handlers\TimedMessageHandler.cs" />
     <Compile Include="Messages\IUniqueMessage.cs" />
     <Compile Include="Messages\Message.cs" />
-    <Compile Include="Messages\MessageTimer.cs" />
+    <Compile Include="Messages\MessageTimerMessages.cs" />
     <Compile Include="Messages\ProcessException.cs" />
+    <Compile Include="Messages\SagaMessages.cs" />
+    <Compile Include="Messaging\ActionReplyEnvelope.cs" />
     <Compile Include="Messaging\IReplyEnvelope.cs" />
     <Compile Include="Messaging\PublisherReplyEnvelope.cs" />
     <Compile Include="Messaging\RequestResponseHandler.cs" />

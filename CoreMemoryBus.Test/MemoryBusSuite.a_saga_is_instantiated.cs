@@ -188,5 +188,55 @@ namespace CoreMemoryBus.Test
                 Assert.That(newSaga.Value, Is.EqualTo(0));
             }
         }
+
+        [TestFixture]
+        public class when_a_saga_is_completed
+        {
+            [Test]
+            public void it_can_respond_to_queries_of_its_state()
+            {
+                var guidProvider = CreateMockGuidFactory();
+
+                var theMessageBus = new MemoryBus();
+                var sagas = new SagaContainer<TestSaga>();
+                theMessageBus.Subscribe(sagas);
+
+                var createSaga = new SagaMessages.CreateSaga(guidProvider.NewGuid());
+                var correlationId1 = createSaga.CorrelationId;
+                theMessageBus.Publish(createSaga);
+
+                bool isComplete = false;
+                var reply = new ActionReplyEnvelope<Messages.SagaMessages.SagaCompleteReply>(x => { isComplete = x.IsComplete; });
+
+                theMessageBus.Publish(new Messages.SagaMessages.QuerySagaComplete(correlationId1, reply));
+
+                Assert.That(isComplete, Is.False);
+
+                theMessageBus.Publish(new SagaMessages.CompleteSaga(correlationId1));
+                theMessageBus.Publish(new Messages.SagaMessages.QuerySagaComplete(correlationId1, reply));
+
+                Assert.That(isComplete, Is.True);
+            }
+
+            [Test]
+            public void it_can_be_deleted()
+            {
+                var guidProvider = CreateMockGuidFactory();
+
+                var theMessageBus = new MemoryBus();
+                var sagas = new SagaContainer<TestSaga>();
+                theMessageBus.Subscribe(sagas);
+
+                var createSaga = new SagaMessages.CreateSaga(guidProvider.NewGuid());
+                var correlationId1 = createSaga.CorrelationId;
+                theMessageBus.Publish(createSaga);
+                theMessageBus.Publish(new SagaMessages.CompleteSaga(correlationId1));
+
+                theMessageBus.Publish(new Messages.SagaMessages.DeleteSaga(correlationId1));
+
+                var completeSaga = (TestSaga)sagas.FirstOrDefault(x => x.CorrelationId == correlationId1);
+                Assert.That(completeSaga, Is.Null);
+            }
+        }
     }
 }

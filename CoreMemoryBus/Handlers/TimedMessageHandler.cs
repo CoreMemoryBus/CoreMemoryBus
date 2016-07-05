@@ -1,9 +1,10 @@
-﻿using CoreMemoryBus.Util;
+﻿using CoreMemoryBus.Messages;
+using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Handlers
 {
-    public class TimedMessageHandler : IHandle<MessageTimer.SetLoggingThreshold>,
-                                       IHandle<MessageTimer.RequestLoggingThreshold>
+    public class TimedMessageHandler : IHandle<MessageTimerMessages.SetLoggingThreshold>,
+                                       IHandle<MessageTimerMessages.RequestLoggingThreshold>
     {
         private readonly IMessageTimer _messageTimer;
 
@@ -13,14 +14,14 @@ namespace CoreMemoryBus.Handlers
             _messageTimer = messageTimer;
         }
 
-        public void Handle(MessageTimer.SetLoggingThreshold message)
+        public void Handle(MessageTimerMessages.SetLoggingThreshold message)
         {
             _messageTimer.LogThreshold = message.LoggingThreshold;
         }
 
-        public void Handle(MessageTimer.RequestLoggingThreshold message)
+        public void Handle(MessageTimerMessages.RequestLoggingThreshold message)
         {
-            var response = new MessageTimer.LoggingThresholdResponse(message.CorrelationId, _messageTimer.LogThreshold);
+            var response = new MessageTimerMessages.LoggingThresholdResponse(message.CorrelationId, _messageTimer.LogThreshold);
             message.Reply.ReplyWith(response);
         }
     }

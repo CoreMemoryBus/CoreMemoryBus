@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
-using CoreMemoryBus.PublishingStrategies;
 using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Handlers

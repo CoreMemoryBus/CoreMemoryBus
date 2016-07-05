@@ -14,7 +14,10 @@ namespace CoreMemoryBus.Sagas
     /// object factory should be provided in the constructor.
     /// </summary>
     /// <typeparam name="TSaga"></typeparam>
-    public class SagaContainer<TSaga> : IHandle<Message>, IEnumerable<ISaga>
+    public class SagaContainer<TSaga> : IHandle<Message>,
+                                        IHandle<SagaMessages.QuerySagaComplete>,
+                                        IHandle<SagaMessages.DeleteSaga>,
+                                        IEnumerable<ISaga>
         where TSaga : ISaga
     {
         private readonly Dictionary<Guid, ISaga> _sagaInstances = new Dictionary<Guid, ISaga>();
@@ -70,6 +73,20 @@ namespace CoreMemoryBus.Sagas
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void Handle(SagaMessages.QuerySagaComplete message)
+        {
+            ISaga saga;
+            if (_sagaInstances.TryGetValue(message.CorrelationId, out saga))
+            {
+                message.Reply.ReplyWith(new SagaMessages.SagaCompleteReply(message.CorrelationId) {IsComplete = saga.IsComplete});
+            }
+        }
+
+        public void Handle(SagaMessages.DeleteSaga message)
+        {
+            _sagaInstances.Remove(message.CorrelationId);
         }
     }
 }

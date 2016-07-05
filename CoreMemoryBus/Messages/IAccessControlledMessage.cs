@@ -1,4 +1,4 @@
-﻿namespace CoreMemoryBus.PublishingStrategies
+﻿namespace CoreMemoryBus.Messages
 {
     public interface IAccessControlledMessage
     {
