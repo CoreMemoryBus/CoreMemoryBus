@@ -2,8 +2,8 @@
 
 [![GitHub license](https://img.shields.io/badge/license-LGPL%20v3-blue.svg)](https://raw.githubusercontent.com/CoreMemoryBus/CoreMemoryBus/master/LICENSE.md)
 
-  	         GNU LESSER GENERAL PUBLIC LICENSE
-                       Version 3, 29 June 2007
+##GNU LESSER GENERAL PUBLIC LICENSE
+###Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
  Everyone is permitted to copy and distribute verbatim copies
