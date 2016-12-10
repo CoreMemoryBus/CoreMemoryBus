@@ -1,5 +1,6 @@
 ﻿using System;
 using CoreMemoryBus.Logger;
+//using CoreMemoryBus.Logger;
 using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using CoreMemoryBus.PublishingStrategies;

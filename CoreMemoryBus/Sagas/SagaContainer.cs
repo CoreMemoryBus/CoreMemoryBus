@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoreMemoryBus.Messages;
-using CoreMemoryBus.Util;
+using CoreMemoryBus.Messaging;
 
 namespace CoreMemoryBus.Sagas
 {
@@ -14,60 +14,21 @@ namespace CoreMemoryBus.Sagas
     /// object factory should be provided in the constructor.
     /// </summary>
     /// <typeparam name="TSaga"></typeparam>
-    public class SagaContainer<TSaga> : IHandle<Message>,
+    /// 
+
+    public class SagaContainer<TSaga> : Repository<Guid, TSaga, ISaga>, 
                                         IHandle<SagaMessages.QuerySagaComplete>,
                                         IHandle<SagaMessages.DeleteSaga>,
-                                        IEnumerable<ISaga>
-        where TSaga : ISaga
+                                        IEnumerable<ISaga> where TSaga:ISaga
     {
-        private readonly Dictionary<Guid, ISaga> _sagaInstances = new Dictionary<Guid, ISaga>();
-
-        private static readonly HashSet<Type> TriggerMessageTypes = new HashSet<Type>(); 
-
-        static SagaContainer()
-        {
-            var triggerHandlers = PubSubCommon.GetMessageTriggerInterfaces(typeof (TSaga).GetInterfaces());
-            foreach (var trigger in triggerHandlers)
-            {
-                var triggerMsgType = trigger.GetGenericArguments()[0];
-                TriggerMessageTypes.Add(triggerMsgType);
-            }
-        }
-
-        public SagaContainer(Func<Message, ISaga> sagaFactory = null)
-        {
-            SagaFactory = sagaFactory ?? ((_) => (ISaga) Activator.CreateInstance(typeof (TSaga)));
-        }
-
-        protected Func<Message, ISaga> SagaFactory { get; private set; }
-
-        public void Handle(Message message)
-        {
-            var sagaMessage = message as ICorrelatedMessage;
-            if (sagaMessage != null)
-            {
-                ISaga saga;
-                if (_sagaInstances.TryGetValue(sagaMessage.CorrelationId, out saga))
-                {
-                    saga.Publish(message);
-                }
-                else if (TriggerMessageTypes.Contains(message.GetType()))
-                {
-                    var newSaga = SagaFactory(message);
-                    _sagaInstances[sagaMessage.CorrelationId] = newSaga;
-                    newSaga.Publish(message);
-                }
-            }
-        }
-
         public int Count()
         {
-            return _sagaInstances.Count;
+            return RepositoryItems.Count;
         }
 
         public IEnumerator<ISaga> GetEnumerator()
         {
-            return _sagaInstances.Values.GetEnumerator();
+            return RepositoryItems.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -78,15 +39,15 @@ namespace CoreMemoryBus.Sagas
         public void Handle(SagaMessages.QuerySagaComplete message)
         {
             ISaga saga;
-            if (_sagaInstances.TryGetValue(message.CorrelationId, out saga))
+            if (RepositoryItems.TryGetValue(message.CorrelationId, out saga))
             {
-                message.Reply.ReplyWith(new SagaMessages.SagaCompleteReply(message.CorrelationId) {IsComplete = saga.IsComplete});
+                message.Reply.ReplyWith(new SagaMessages.SagaCompleteReply(message.CorrelationId) { IsComplete = saga.IsComplete });
             }
         }
 
         public void Handle(SagaMessages.DeleteSaga message)
         {
-            _sagaInstances.Remove(message.CorrelationId);
+            RepositoryItems.Remove(message.CorrelationId);
         }
     }
 }

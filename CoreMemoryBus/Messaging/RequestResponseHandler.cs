@@ -12,7 +12,13 @@ namespace CoreMemoryBus.Messaging
     /// invoked once. When a reply has been successfully called-back the reply handler will no longer 
     /// activate with the same correlation Id.
     /// </summary>
-    public class RequestResponseHandler : IHandle<Message>
+    public class RequestResponseHandler : RequestResponseHandler<Guid>
+    {
+        public RequestResponseHandler(IPublisher publisher) : base(publisher)
+        { }
+    }
+
+    public class RequestResponseHandler<THashKey> : IHandle<Message>
     {
         private readonly IPublisher _publisher;
 
@@ -21,11 +27,11 @@ namespace CoreMemoryBus.Messaging
             _publisher = publisher;
         }
 
-        readonly Dictionary<Guid, IResponseAction> _responseActions = new Dictionary<Guid, IResponseAction>();
+        readonly Dictionary<THashKey, IResponseAction> _responseActions = new Dictionary<THashKey, IResponseAction>();
 
-        public void Publish<TRequest, TResponse>(TRequest request, Action<TResponse> responseCallback) 
-            where TRequest : Message, ICorrelatedMessage
-            where TResponse : Message, ICorrelatedMessage
+        public void Publish<TRequest, TResponse>(TRequest request, Action<TResponse> responseCallback)
+            where TRequest : Message, ICorrelatedMessage<THashKey>
+            where TResponse : Message, ICorrelatedMessage<THashKey>
         {
             _responseActions[request.CorrelationId] = new ResponseAction<TResponse>(responseCallback);
             _publisher.Publish(request);
@@ -47,14 +53,14 @@ namespace CoreMemoryBus.Messaging
 
             public void ExecuteAction(Message replyMessage)
             {
-                var param = (T) replyMessage;
+                var param = (T)replyMessage;
                 _action(param);
             }
         }
 
         public void Handle(Message message)
         {
-            var reply = message as ICorrelatedMessage;
+            var reply = message as ICorrelatedMessage<THashKey>;
             if (reply != null)
             {
                 IResponseAction action;

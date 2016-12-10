@@ -16,8 +16,8 @@ using System.Reflection;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.4.<#= this.RevisionNumber #>")]
-[assembly: AssemblyFileVersion("1.0.4.<#= this.RevisionNumber #>")]
+[assembly: AssemblyVersion("1.0.5.<#= this.RevisionNumber #>")]
+[assembly: AssemblyFileVersion("1.0.5.<#= this.RevisionNumber #>")]
 <#+
     int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2016,6,1)).TotalDays; 
 #>

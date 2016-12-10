@@ -2,8 +2,11 @@
 
 namespace CoreMemoryBus.Messages
 {
-    public interface ICorrelatedMessage
+    public interface ICorrelatedMessage<THashKey>
     {
-        Guid CorrelationId { get; }
+        THashKey CorrelationId { get; }
     }
+
+    public interface ICorrelatedMessage : ICorrelatedMessage<Guid>
+    {}
 }
