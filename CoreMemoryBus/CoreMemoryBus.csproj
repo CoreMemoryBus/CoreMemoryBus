@@ -40,7 +40,6 @@
     <Compile Include="DataStructures\MaxCapacityException.cs" />
     <Compile Include="Handlers\TimedMessageHandler.cs" />
     <Compile Include="Messages\IUniqueMessage.cs" />
-    <Compile Include="Messages\Message.cs" />
     <Compile Include="Messages\MessageTimerMessages.cs" />
     <Compile Include="Messages\ProcessException.cs" />
     <Compile Include="Messages\SagaMessages.cs" />
@@ -64,7 +63,6 @@
     <Compile Include="PublishingStrategies\PooledMessageStrategyDecorator.cs" />
     <Compile Include="Util\AccessControlList.cs" />
     <Compile Include="Util\ICorrelatable.cs" />
-    <Compile Include="Messages\ICorrelatedMessage.cs" />
     <Compile Include="Messages\IPooledMessage.cs" />
     <Compile Include="Messaging\IPublishingStrategy.cs" />
     <Compile Include="Sagas\ISaga.cs" />
@@ -113,6 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreMemoryBus.Messages\CoreMemoryBus.Messages.csproj">
+      <Project>{f63867c7-d8cd-48b1-891d-c2a43ebf0e9c}</Project>
+      <Name>CoreMemoryBus.Messages</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

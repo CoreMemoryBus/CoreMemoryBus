@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using CoreMemoryBus.Logger;
 using CoreMemoryBus.Messages;
 using CoreMemoryBus.PublishingStrategies;
 using CoreMemoryBus.Util;
@@ -9,14 +8,12 @@ namespace CoreMemoryBus.Messaging
 {
     public class MemoryBus : IPublisher, ISubscriber, IHandle<Message>
     {
-        protected ILogger Logger { get; private set; }
-
         public string Name { get; set; }
+
         public Guid Id { get; set; }
 
-        public MemoryBus(ILogger logger = null, Func<MessageHandlerDictionary, IPublishingStrategy> publishingStrategyFactory = null)
+        public MemoryBus(Func<MessageHandlerDictionary, IPublishingStrategy> publishingStrategyFactory = null)
         {
-            Logger = logger ?? new NullLogger();
             Name = string.Empty;
             Id = Guid.Empty;
 
