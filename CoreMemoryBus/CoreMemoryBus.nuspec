@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>https://github.com/CoreMemoryBus/CoreMemoryBus/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/CoreMemoryBus/CoreMemoryBus</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>
       Request-Response handler for simplified callbacks.
@@ -16,5 +16,8 @@
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</tags>
+    <dependencies>
+      <dependency id="CoreMemoryBus.Messages" version="1.0.5"/>
+    </dependencies>
   </metadata>
 </package>
