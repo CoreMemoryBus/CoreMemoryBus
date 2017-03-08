@@ -4,12 +4,12 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>$author$</authors>
+    <authors>macrobert.com</authors>
     <owners>$author$</owners>
     <licenseUrl>https://github.com/CoreMemoryBus/CoreMemoryBus/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/CoreMemoryBus/CoreMemoryBus</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>A simple and configurable, in-memory message bus for message based event driven applications.</description>
     <releaseNotes>
       Refactoring of request-response handler.
       Modifications to accomodate re-entrant code.
