@@ -13,7 +13,7 @@ namespace CoreMemoryBus.Test
     {
         public static class SagaMessages
         {
-            public class CreateSaga : Message, ICorrelatedMessage
+            public class CreateSaga : Message, ICorrelatedMessage<Guid>
             {
                 public Guid CorrelationId { get; private set; }
 
@@ -22,7 +22,7 @@ namespace CoreMemoryBus.Test
                     CorrelationId = correlationId;
                 }
             }
-            public class CreateSagaWithValue : Message, ICorrelatedMessage
+            public class CreateSagaWithValue : Message, ICorrelatedMessage<Guid>
             {
                 public Guid CorrelationId { get; private set; }
                 public int Value { get; private set; }
@@ -34,7 +34,7 @@ namespace CoreMemoryBus.Test
                 }
             }
 
-            public class AddSagaData : Message, ICorrelatedMessage
+            public class AddSagaData : Message, ICorrelatedMessage<Guid>
             {
                 public Guid CorrelationId { get; private set; }
                 public int Value { get; private set; }
@@ -46,7 +46,7 @@ namespace CoreMemoryBus.Test
                 }
             }
 
-            public class CompleteSaga : Message, ICorrelatedMessage
+            public class CompleteSaga : Message, ICorrelatedMessage<Guid>
             {
                 public Guid CorrelationId { get; private set; }
 

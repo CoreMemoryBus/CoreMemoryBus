@@ -16,30 +16,27 @@ namespace CoreMemoryBus.Sagas
     /// <typeparam name="TSaga"></typeparam>
     /// 
 
-    public class SagaContainer<TSaga> : Repository<Guid, TSaga, ISaga>, 
+    public class SagaContainer<TSaga> : CorrelatableRepository<Guid, TSaga>, 
                                         IHandle<SagaMessages.QuerySagaComplete>,
                                         IHandle<SagaMessages.DeleteSaga>,
-                                        IEnumerable<ISaga> where TSaga:ISaga
+                                        IEnumerable<TSaga> where TSaga:ISaga
     {
+        public SagaContainer()
+        { }
+
+        public SagaContainer(Func<Message, TSaga> repoItemFactory = null) : base(repoItemFactory)
+        { }
+
+
         public int Count()
         {
-            return RepositoryItems.Count;
-        }
-
-        public IEnumerator<ISaga> GetEnumerator()
-        {
-            return RepositoryItems.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            return RepoItems.Count;
         }
 
         public void Handle(SagaMessages.QuerySagaComplete message)
         {
-            ISaga saga;
-            if (RepositoryItems.TryGetValue(message.CorrelationId, out saga))
+            TSaga saga;
+            if (RepoItems.TryGetValue(message.CorrelationId, out saga))
             {
                 message.Reply.ReplyWith(new SagaMessages.SagaCompleteReply(message.CorrelationId) { IsComplete = saga.IsComplete });
             }
@@ -47,7 +44,17 @@ namespace CoreMemoryBus.Sagas
 
         public void Handle(SagaMessages.DeleteSaga message)
         {
-            RepositoryItems.Remove(message.CorrelationId);
+            RepoItems.Remove(message.CorrelationId);
+        }
+
+        public IEnumerator<TSaga> GetEnumerator()
+        {
+            return RepoItems.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

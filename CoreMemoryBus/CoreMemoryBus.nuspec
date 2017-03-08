@@ -11,10 +11,10 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>
-      Request-Response handler for simplified callbacks.
-      Sagas can be deleted from their container.
+      Refactoring of request-response handler.
+      Modifications to accomodate re-entrant code.
     </releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <copyright>Copyright 2017</copyright>
     <tags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</tags>
     <dependencies>
       <dependency id="CoreMemoryBus.Messages" version="1.0.5"/>

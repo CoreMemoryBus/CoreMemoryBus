@@ -6,7 +6,4 @@ namespace CoreMemoryBus.Util
     {
         THashKey CorrelationId { get; }
     }
-
-    public interface ICorrelatable : ICorrelatable<Guid>
-    {}
 }

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CoreMemoryBus</RootNamespace>
     <AssemblyName>CoreMemoryBus</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,7 @@
     <Compile Include="Messages\ProcessException.cs" />
     <Compile Include="Messages\SagaMessages.cs" />
     <Compile Include="Messaging\ActionReplyEnvelope.cs" />
+    <Compile Include="Messaging\CorrelatableRepository.cs" />
     <Compile Include="Messaging\IReplyEnvelope.cs" />
     <Compile Include="Messaging\PublisherReplyEnvelope.cs" />
     <Compile Include="Messaging\Repository.cs" />
@@ -94,20 +96,9 @@
     <Compile Include="Util\PubSubCommon.cs" />
     <Compile Include="Util\Stopwatch.cs" />
     <Compile Include="Util\StringEnumerableExtensions.cs" />
-    <Compile Include="Version.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Version.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="CoreMemoryBus.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Version.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Version.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

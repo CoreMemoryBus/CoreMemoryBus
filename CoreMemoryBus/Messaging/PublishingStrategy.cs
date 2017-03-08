@@ -17,7 +17,9 @@ namespace CoreMemoryBus.Messaging
             MessageHandlerProxies proxies;
             if (MessageHandlers.TryGetValue(msgType, out proxies))
             {
-                proxies.Publish(message);
+                // permit re-entrancy while publishing
+                var nonReentrantProxies = new MessageHandlerProxies(proxies);
+                nonReentrantProxies.Publish(message);
             }
         }
     }

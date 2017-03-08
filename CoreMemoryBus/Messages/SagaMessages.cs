@@ -5,7 +5,7 @@ namespace CoreMemoryBus.Messages
 {
     public static class SagaMessages
     {
-        public class QuerySagaComplete : Message, ICorrelatedMessage
+        public class QuerySagaComplete : Message, ICorrelatedMessage<Guid>
         {
             public QuerySagaComplete(Guid correlationId, IReplyEnvelope reply)
             {
@@ -18,7 +18,7 @@ namespace CoreMemoryBus.Messages
             public IReplyEnvelope Reply { get; private set; }
         }
 
-        public class SagaCompleteReply : Message, ICorrelatedMessage
+        public class SagaCompleteReply : Message, ICorrelatedMessage<Guid>
         {
             public SagaCompleteReply(Guid correlationId)
             {
@@ -30,7 +30,7 @@ namespace CoreMemoryBus.Messages
             public bool IsComplete { get; set; }
         }
 
-        public class DeleteSaga : Message, ICorrelatedMessage
+        public class DeleteSaga : Message, ICorrelatedMessage<Guid>
         {
             public DeleteSaga(Guid correlationId)
             {

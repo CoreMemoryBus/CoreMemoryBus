@@ -15,7 +15,7 @@ namespace CoreMemoryBus.Test
             public void a_reply_handler_will_do_nothing_on_the_second_invocation()
             {
                 var theMessageBus = new MemoryBus();
-                var requestReponse = new RequestResponseHandler(theMessageBus);
+                var requestReponse = new RequestResponseHandler<Guid>(theMessageBus);
                 theMessageBus.Subscribe(requestReponse);
 
                 var guid = Guid.NewGuid();
@@ -40,7 +40,7 @@ namespace CoreMemoryBus.Test
             : base("RequestReponseHandlerSuite")
         { }
 
-        class CallerRequestMessage : Message, ICorrelatedMessage
+        class CallerRequestMessage : Message, ICorrelatedMessage<Guid>
         {
             public CallerRequestMessage(Guid correlationId)
             {
@@ -50,7 +50,7 @@ namespace CoreMemoryBus.Test
             public Guid CorrelationId { get; private set; }
         }
 
-        class CallerResponseMessage : Message, ICorrelatedMessage
+        class CallerResponseMessage : Message, ICorrelatedMessage<Guid>
         {
             public CallerResponseMessage(Guid correlationId)
             {
@@ -85,7 +85,5 @@ namespace CoreMemoryBus.Test
                 _publisher.Publish(new CallerResponseMessage(requestMessage.CorrelationId));
             }
         }
-
-
     }
 }

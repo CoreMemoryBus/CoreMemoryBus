@@ -5,16 +5,11 @@ using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Messaging
 {
-    public class Repository<THashKey, TRepoItem, TRepoItemInterface>
-        : IHandle<Message>
-        where TRepoItem : TRepoItemInterface
-        where TRepoItemInterface : IPublisher
+    public class Repository<THashKey, TRepoItem>
     {
-        private readonly Dictionary<THashKey, TRepoItemInterface> _repoItems = new Dictionary<THashKey, TRepoItemInterface>();
+        protected readonly Dictionary<THashKey, TRepoItem> RepoItems = new Dictionary<THashKey, TRepoItem>();
 
-        protected Dictionary<THashKey, TRepoItemInterface> RepositoryItems { get { return _repoItems; } }
-
-        private static readonly HashSet<Type> TriggerMessageTypes = new HashSet<Type>();
+        protected static readonly HashSet<Type> TriggerMessageTypes = new HashSet<Type>();
 
         static Repository()
         {
@@ -26,30 +21,38 @@ namespace CoreMemoryBus.Messaging
             }
         }
 
-        public Repository(Func<Message, TRepoItemInterface> repoItemFactory = null)
+        protected Repository(Func<Message, TRepoItem> repoItemFactory = null)
         {
-            RepoItemFactory = repoItemFactory ?? ((_) => (TRepoItemInterface)Activator.CreateInstance(typeof(TRepoItem)));
+            RepoItemFactory = repoItemFactory ?? (_ => (TRepoItem)Activator.CreateInstance(typeof(TRepoItem)));
         }
 
-        protected Func<Message, TRepoItemInterface> RepoItemFactory { get; private set; }
+        protected Func<Message, TRepoItem> RepoItemFactory { get; set; }
 
-        public void Handle(Message msg)
+        public TRepoItem Remove(THashKey key)
         {
-            var repoItemMessage = msg as ICorrelatedMessage<THashKey>;
-            if (repoItemMessage != null)
+            TRepoItem item;
+            if (RepoItems.TryGetValue(key, out item))
             {
-                TRepoItemInterface repoItem;
-                if (_repoItems.TryGetValue(repoItemMessage.CorrelationId, out repoItem))
+                RepoItems.Remove(key);
+                return item;
+            }
+
+            return default(TRepoItem);
+        }
+
+        public IEnumerable<KeyValuePair<THashKey, TRepoItem>> Remove(ISet<THashKey> keys)
+        {
+            var result = new List<KeyValuePair<THashKey, TRepoItem>>();
+            foreach (var hashKey in keys)
+            {
+                TRepoItem item;
+                if (RepoItems.TryGetValue(hashKey, out item))
                 {
-                    repoItem.Publish(msg);
-                }
-                else if (TriggerMessageTypes.Contains(msg.GetType()))
-                {
-                    var newReadModel = RepoItemFactory(msg);
-                    _repoItems[repoItemMessage.CorrelationId] = newReadModel;
-                    newReadModel.Publish(msg);
+                    result.Add(new KeyValuePair<THashKey, TRepoItem>(hashKey, item));
                 }
             }
+
+            return result;
         }
     }
 }

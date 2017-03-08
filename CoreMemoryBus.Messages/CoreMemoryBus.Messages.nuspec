@@ -7,11 +7,11 @@
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>https://github.com/CoreMemoryBus/CoreMemoryBus/blob/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/CoreMemoryBus/CoreMemoryBus.Messages</projectUrl>
+    <projectUrl>https://github.com/CoreMemoryBus</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Decouple messages from the CoreMemoryBus implementation</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <releaseNotes>Decouple messages from the CoreMemoryBus implementation. Subscribers to this package need not depend on the whole CoreMemoryBus architecture.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
     <tags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</tags>
   </metadata>
 </package>

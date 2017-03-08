@@ -12,63 +12,54 @@ namespace CoreMemoryBus.Messaging
     /// invoked once. When a reply has been successfully called-back the reply handler will no longer 
     /// activate with the same correlation Id.
     /// </summary>
-    public class RequestResponseHandler : RequestResponseHandler<Guid>
+    public class RequestResponseHandler<TCorrelation> : IHandle<Message>
     {
-        public RequestResponseHandler(IPublisher publisher) : base(publisher)
-        { }
-    }
-
-    public class RequestResponseHandler<THashKey> : IHandle<Message>
-    {
+        private readonly Dictionary<TCorrelation, IResponseAction> _responseActions = new Dictionary<TCorrelation, IResponseAction>();
         private readonly IPublisher _publisher;
 
         public RequestResponseHandler(IPublisher publisher)
         {
-            _publisher = publisher;
+            this._publisher = publisher;
         }
 
-        readonly Dictionary<THashKey, IResponseAction> _responseActions = new Dictionary<THashKey, IResponseAction>();
-
         public void Publish<TRequest, TResponse>(TRequest request, Action<TResponse> responseCallback)
-            where TRequest : Message, ICorrelatedMessage<THashKey>
-            where TResponse : Message, ICorrelatedMessage<THashKey>
+            where TRequest : Message, ICorrelatedMessage<TCorrelation>
+            where TResponse : Message, ICorrelatedMessage<TCorrelation>
         {
             _responseActions[request.CorrelationId] = new ResponseAction<TResponse>(responseCallback);
             _publisher.Publish(request);
         }
 
-        interface IResponseAction
+        public void Handle(Message message)
+        {
+            var correlatedMessage = message as ICorrelatedMessage<TCorrelation>;
+            IResponseAction responseAction;
+            if (correlatedMessage == null || !_responseActions.TryGetValue(correlatedMessage.CorrelationId, out responseAction))
+            {
+                return;
+            }
+
+            responseAction.ExecuteAction(message);
+            _responseActions.Remove(correlatedMessage.CorrelationId);
+        }
+
+        private interface IResponseAction
         {
             void ExecuteAction(Message replyMessage);
         }
 
-        class ResponseAction<T> : IResponseAction where T : Message
+        private class ResponseAction<TMessage> : IResponseAction where TMessage : Message
         {
-            private readonly Action<T> _action;
+            private readonly Action<TMessage> _action;
 
-            public ResponseAction(Action<T> action)
+            public ResponseAction(Action<TMessage> action)
             {
                 _action = action;
             }
 
             public void ExecuteAction(Message replyMessage)
             {
-                var param = (T)replyMessage;
-                _action(param);
-            }
-        }
-
-        public void Handle(Message message)
-        {
-            var reply = message as ICorrelatedMessage<THashKey>;
-            if (reply != null)
-            {
-                IResponseAction action;
-                if (_responseActions.TryGetValue(reply.CorrelationId, out action))
-                {
-                    action.ExecuteAction(message);
-                    _responseActions.Remove(reply.CorrelationId);
-                }
+                _action((TMessage)replyMessage);
             }
         }
     }

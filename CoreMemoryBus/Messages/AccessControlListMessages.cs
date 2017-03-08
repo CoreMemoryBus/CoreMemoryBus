@@ -60,7 +60,7 @@ namespace CoreMemoryBus.Messages
             public Guid Id { get; private set; }
         }
 
-        public class RequestAccessControlExplanation : Message, ICorrelatedMessage, IAccessControlMessage
+        public class RequestAccessControlExplanation : Message, ICorrelatedMessage<Guid>, IAccessControlMessage
         {
             public RequestAccessControlExplanation(Guid correlationId, string principal, Type type, IReplyEnvelope reply)
             {
@@ -77,7 +77,7 @@ namespace CoreMemoryBus.Messages
             public IReplyEnvelope Reply { get; private set; }
         }
 
-        public class AccessControlExplanationResponse : Message, ICorrelatedMessage
+        public class AccessControlExplanationResponse : Message, ICorrelatedMessage<Guid>
         {
             public AccessControlExplanationResponse(Guid correlationId, string explanation)
             {

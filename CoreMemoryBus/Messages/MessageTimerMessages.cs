@@ -17,7 +17,7 @@ namespace CoreMemoryBus.Messages
             public TimeSpan LoggingThreshold { get; private set; }
         }
 
-        public class RequestLoggingThreshold : Message, ICorrelatedMessage
+        public class RequestLoggingThreshold : Message, ICorrelatedMessage<Guid>
         {
             public RequestLoggingThreshold(Guid correlationId, IReplyEnvelope reply)
             {
@@ -30,7 +30,7 @@ namespace CoreMemoryBus.Messages
             public IReplyEnvelope Reply { get; private set; }
         }
 
-        public class LoggingThresholdResponse : Message, ICorrelatedMessage
+        public class LoggingThresholdResponse : Message, ICorrelatedMessage<Guid>
         {
             public LoggingThresholdResponse(Guid correlationId, TimeSpan loggingThreshold)
             {
