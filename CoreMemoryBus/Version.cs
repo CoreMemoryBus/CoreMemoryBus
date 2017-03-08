@@ -6,6 +6,7 @@
 using System.Reflection;
 
 [assembly: AssemblyCompany("MacRobert.com")]
+[assembly: AssemblyCopyright("Copyright © MacRobert.com 2017")]
 
 // Version information for an assembly consists of the following four values:
 //
