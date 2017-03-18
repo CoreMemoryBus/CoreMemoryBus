@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.5.280</version>
+    <version>$version$</version>
     <title>$title$</title>
     <authors>macrobert.com</authors>
     <owners>$author$</owners>
@@ -17,7 +17,7 @@
     <copyright>Copyright 2017</copyright>
     <tags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</tags>
     <dependencies>
-      <dependency id="CoreMemoryBus.Messages" version="1.0.5"/>
+      <dependency id="CoreMemoryBus.Messages"/>
     </dependencies>
   </metadata>
 </package>
