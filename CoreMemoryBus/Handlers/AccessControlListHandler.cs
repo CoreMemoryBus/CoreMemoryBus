@@ -6,7 +6,7 @@ using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Handlers
 {
-    public class AccessControlListHandler : ProxyPublisher<AccessControlListHandler>,
+    public class AccessControlListHandler : ProxyPublisher,
                                             IHandle<AccessControlListMessages.Grant>,
                                             IHandle<AccessControlListMessages.RevokeGrant>,
                                             IHandle<AccessControlListMessages.Deny>,

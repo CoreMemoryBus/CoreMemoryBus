@@ -4,8 +4,8 @@ using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Messaging
 {
-    public class RepositoryItem<THashKey, TDerived>
-        : ProxyPublisher<TDerived>, ICorrelatable<THashKey>
+    public class RepositoryItem<THashKey>
+        : ProxyPublisher, ICorrelatable<THashKey>
     {
         protected RepositoryItem(THashKey correlationId)
         {

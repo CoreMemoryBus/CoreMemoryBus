@@ -5,7 +5,7 @@ using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Messaging
 {
-    public class ProxyPublisher<TDerived> : IPublisher
+    public class ProxyPublisher : IPublisher
     {
         protected ProxyPublisher()
         { }
@@ -28,7 +28,7 @@ namespace CoreMemoryBus.Messaging
 
         private Dictionary<Type, IMessageHandlerProxy> InitProxies()
         {
-            var interfaces = typeof(TDerived).GetInterfaces();
+            var interfaces = GetType().GetInterfaces();
             var result = new Dictionary<Type, IMessageHandlerProxy>();
             CollectMessageHandlerProxies(interfaces, result);
             return result;

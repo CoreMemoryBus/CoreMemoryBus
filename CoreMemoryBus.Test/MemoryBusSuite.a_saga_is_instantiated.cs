@@ -58,7 +58,7 @@ namespace CoreMemoryBus.Test
         }
 
         public class TestSaga :
-            Saga<TestSaga>,
+            Saga,
             IAmTriggeredBy<SagaMessages.CreateSaga>,
             IAmTriggeredBy<SagaMessages.CreateSagaWithValue>,
             IHandle<SagaMessages.AddSagaData>,

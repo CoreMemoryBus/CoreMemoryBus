@@ -11,8 +11,7 @@ namespace CoreMemoryBus.Sagas
     /// conventional message handlers via the IHandleInterface. Saga objects are contained within a SagaContainer which 
     /// regulates their lifecycle. 
     /// </summary>
-    /// <typeparam name="TDerived"></typeparam>
-    public class Saga<TDerived> : ProxyPublisher<TDerived>
+    public class Saga : ProxyPublisher
     {
         protected Saga()
         { }
