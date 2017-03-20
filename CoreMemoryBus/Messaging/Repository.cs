@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using CoreMemoryBus.Messages;
 using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Messaging
 {
-    public class Repository<THashKey, TRepoItem>
+    public class Repository<THashKey, TRepoItem> : IEnumerable<KeyValuePair<THashKey, TRepoItem>>
     {
         protected readonly Dictionary<THashKey, TRepoItem> RepoItems = new Dictionary<THashKey, TRepoItem>();
 
@@ -53,6 +54,16 @@ namespace CoreMemoryBus.Messaging
             }
 
             return result;
+        }
+
+        public IEnumerator<KeyValuePair<THashKey, TRepoItem>> GetEnumerator()
+        {
+            return RepoItems.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
