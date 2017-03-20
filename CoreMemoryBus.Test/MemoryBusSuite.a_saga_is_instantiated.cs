@@ -150,7 +150,7 @@ namespace CoreMemoryBus.Test
                 Assert.That<int>(sagas.Count, Is.EqualTo(1));
 
                 // When created, the saga adopts the correlationId of the trigger message that created it.
-                var newSaga1 = (TestSaga)sagas.FirstOrDefault(x => x.CorrelationId == correlationId1);
+                var newSaga1 = (TestSaga)sagas.FirstOrDefault((TestSaga x) => x.CorrelationId == correlationId1);
                 Assert.That(newSaga1 != null, Is.True);
                 Assert.That(newSaga1.Value, Is.EqualTo(0));
 
@@ -160,7 +160,7 @@ namespace CoreMemoryBus.Test
                 theMessageBus.Publish(createSagaWithValue);
                 Assert.That<int>(sagas.Count, Is.EqualTo(2));
 
-                var newSaga2 = (TestSaga)sagas.FirstOrDefault(x => x.CorrelationId == correlationId2);
+                var newSaga2 = (TestSaga)sagas.FirstOrDefault((TestSaga x) => x.CorrelationId == correlationId2);
                 Assert.That(newSaga2 != null, Is.True);
                 Assert.That(newSaga2.Value, Is.EqualTo(10));
             }
@@ -181,7 +181,7 @@ namespace CoreMemoryBus.Test
                 var createSaga = new SagaMessages.CreateSaga(guidProvider.NewGuid());
                 var correlationId1 = createSaga.CorrelationId;
                 theMessageBus.Publish(createSaga);
-                var newSaga = (TestSaga)sagas.FirstOrDefault(x => x.CorrelationId == correlationId1);
+                var newSaga = (TestSaga)sagas.FirstOrDefault((TestSaga x) => x.CorrelationId == correlationId1);
 
                 var addData = new SagaMessages.AddSagaData(guidProvider.NewGuid(), 11);
                 theMessageBus.Publish(addData);
@@ -234,7 +234,7 @@ namespace CoreMemoryBus.Test
 
                 theMessageBus.Publish(new Messages.SagaMessages.DeleteSaga(correlationId1));
 
-                var completeSaga = (TestSaga)sagas.FirstOrDefault(x => x.CorrelationId == correlationId1);
+                var completeSaga = (TestSaga)sagas.FirstOrDefault((TestSaga x) => x.CorrelationId == correlationId1);
                 Assert.That(completeSaga, Is.Null);
             }
         }
