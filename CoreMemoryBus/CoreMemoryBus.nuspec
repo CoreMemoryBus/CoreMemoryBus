@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.6.290</version>
+    <version>1.0.7.292</version>
     <title>$title$</title>
     <authors>macrobert.com</authors>
     <owners>$author$</owners>
@@ -11,8 +11,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>A simple and configurable, in-memory message bus for message based event driven applications.</description>
     <releaseNotes>
-      Refactoring of request-response handler.
-      Modifications to accomodate re-entrant code.
+      Make Repository Enumerable
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</tags>
