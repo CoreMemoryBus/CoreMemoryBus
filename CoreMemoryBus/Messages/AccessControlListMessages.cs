@@ -77,9 +77,9 @@ namespace CoreMemoryBus.Messages
             public IReplyEnvelope Reply { get; private set; }
         }
 
-        public class AccessControlExplanationResponse : Message, ICorrelatedMessage<Guid>
+        public class AccessControlExplanation : Message, ICorrelatedMessage<Guid>
         {
-            public AccessControlExplanationResponse(Guid correlationId, string explanation)
+            public AccessControlExplanation(Guid correlationId, string explanation)
             {
                 CorrelationId = correlationId;
                 Explanation = explanation;
@@ -88,6 +88,16 @@ namespace CoreMemoryBus.Messages
             public Guid CorrelationId { get; private set; }
 
             public string Explanation { get; private set; }
+        }
+
+        public class NotPublishedMessage : Message
+        {
+            private Message _message;
+
+            public NotPublishedMessage(Message message)
+            {
+                _message = message;
+            }
         }
     }
 }

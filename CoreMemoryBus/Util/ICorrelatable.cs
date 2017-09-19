@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CoreMemoryBus.Util
+﻿namespace CoreMemoryBus.Util
 {
     public interface ICorrelatable<THashKey>
     {

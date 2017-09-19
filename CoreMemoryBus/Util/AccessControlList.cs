@@ -7,13 +7,12 @@ namespace CoreMemoryBus.Util
     public class AccessControlList : IAccessControlList
     {
         private readonly HashSetDictionary<Type, string> _granted = new HashSetDictionary<Type, string>();
-
         private readonly HashSetDictionary<Type, string> _denied = new HashSetDictionary<Type, string>();
 
         public bool IsGranted(string[] principals, Type msgType)
         {
-            Ensure.ArgumentIsNotNull(principals,"principals");
-            Ensure.ArgumentIsNotNull(msgType,"msgType");
+            Ensure.ArgumentIsNotNull(principals, "principals");
+            Ensure.ArgumentIsNotNull(msgType, "msgType");
 
             ISetGrouping<Type, string> grouping;
             if (_granted.TryGetGrouping(msgType, out grouping))
@@ -26,7 +25,7 @@ namespace CoreMemoryBus.Util
 
         public void Grant(string principal, Type msgType)
         {
-            Ensure.ArgumentIsNotNull(principal,"principal");
+            Ensure.ArgumentIsNotNull(principal, "principal");
             Ensure.ArgumentIsNotNull(msgType, "msgType");
 
             _granted.Add(msgType, principal);
@@ -80,8 +79,7 @@ namespace CoreMemoryBus.Util
             {
                 if (principals.Any(x => grouping.Contains(x)))
                 {
-                    return string.Format("Permission was explicitly denied to principals: \"{0}\" for instruction: {1}",
-                        principals.ToCsv(), msgType);
+                    return $"Permission was explicitly denied to principals: \"{ToCsv(principals)}\" for instruction: {msgType}";
                 }
             }
 
@@ -92,12 +90,15 @@ namespace CoreMemoryBus.Util
                     return "Permission granted.";
                 }
 
-                return string.Format("No permissions were granted to any principals: \"{0}\" for instruction: {1}",
-                    principals.ToCsv(), msgType);
+                return $"No permissions were granted to any principals: \"{ToCsv(principals)}\" for instruction: {msgType}";
             }
 
-            return string.Format("No access control was configured for principals: \"{0}\" for instruction: {1}",
-                principals.ToCsv(), msgType);
+            return $"No access control was configured for principals: \"{ToCsv(principals)}\" for instruction: {msgType}";
+        }
+
+        private static string ToCsv(string[] values)
+        {
+            return string.Join(",", values);
         }
     }
 }

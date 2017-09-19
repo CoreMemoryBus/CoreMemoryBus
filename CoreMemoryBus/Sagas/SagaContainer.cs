@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
+using CoreMemoryBus.Handlers;
 
 namespace CoreMemoryBus.Sagas
 {
@@ -18,16 +19,14 @@ namespace CoreMemoryBus.Sagas
 
     public class SagaContainer<TSaga> : CorrelatableRepository<Guid, TSaga>, 
                                         IHandle<SagaMessages.QuerySagaComplete>,
-                                        IHandle<SagaMessages.DeleteSaga>,
-                                        IEnumerable<TSaga> where TSaga:ISaga
+                                        IHandle<SagaMessages.DeleteSaga> where TSaga:ISaga
     {
         public SagaContainer()
         { }
 
         public SagaContainer(Func<Message, TSaga> repoItemFactory = null) : base(repoItemFactory)
         { }
-
-
+        
         public int Count()
         {
             return RepoItems.Count;
@@ -35,8 +34,7 @@ namespace CoreMemoryBus.Sagas
 
         public void Handle(SagaMessages.QuerySagaComplete message)
         {
-            TSaga saga;
-            if (RepoItems.TryGetValue(message.CorrelationId, out saga))
+            if (RepoItems.TryGetValue(message.CorrelationId, out TSaga saga))
             {
                 message.Reply.ReplyWith(new SagaMessages.SagaCompleteReply(message.CorrelationId) { IsComplete = saga.IsComplete });
             }
@@ -45,16 +43,6 @@ namespace CoreMemoryBus.Sagas
         public void Handle(SagaMessages.DeleteSaga message)
         {
             RepoItems.Remove(message.CorrelationId);
-        }
-
-        public IEnumerator<TSaga> GetEnumerator()
-        {
-            return RepoItems.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

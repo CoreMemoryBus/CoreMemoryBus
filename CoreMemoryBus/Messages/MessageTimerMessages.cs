@@ -1,5 +1,5 @@
-﻿using System;
-using CoreMemoryBus.Messaging;
+﻿using CoreMemoryBus.Messaging;
+using System;
 
 namespace CoreMemoryBus.Messages
 {
@@ -42,5 +42,18 @@ namespace CoreMemoryBus.Messages
 
             public TimeSpan LoggingThreshold { get; private set; }
         }
+
+        public class SlowPublication : Message
+        {
+            private Message message;
+            private TimeSpan elapsed;
+
+            public SlowPublication(Message message, TimeSpan elapsed)
+            {
+                this.message = message;
+                this.elapsed = elapsed;
+            }
+        }
     }
+
 }

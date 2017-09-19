@@ -3,6 +3,7 @@ using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
+using CoreMemoryBus.Handlers;
 
 namespace CoreMemoryBus.Test
 {

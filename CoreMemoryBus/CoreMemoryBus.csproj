@@ -1,120 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4AD8F3D-C787-40E0-964C-BF29CA8465D7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CoreMemoryBus</RootNamespace>
-    <AssemblyName>CoreMemoryBus</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.1</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>M. MacRobert</Authors>
+    <Company>macrobert.com</Company>
+    <PackageLicenseUrl>https://github.com/CoreMemoryBus/CoreMemoryBus/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/CoreMemoryBus</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CoreMemoryBus/CoreMemoryBus/tree/master/CoreMemoryBus</RepositoryUrl>
+    <Description>A simple and configurable, in-memory message bus for message based event driven applications.</Description>
+    <Copyright>Copyright 2017</Copyright>
+    <PackageTags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</PackageTags>
+    <PackageReleaseNotes>.Net Standard 2.0</PackageReleaseNotes>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <PackageReference Include="CoreMemoryBus.Messages" Version="2.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="DataStructures\HashSetDictionary.cs" />
-    <Compile Include="DataStructures\IHashSetDictionary.cs" />
-    <Compile Include="DataStructures\ISetGrouping.cs" />
-    <Compile Include="DataStructures\MaxCapacityException.cs" />
-    <Compile Include="Handlers\TimedMessageHandler.cs" />
-    <Compile Include="Messages\IUniqueMessage.cs" />
-    <Compile Include="Messages\MessageTimerMessages.cs" />
-    <Compile Include="Messages\ProcessException.cs" />
-    <Compile Include="Messages\SagaMessages.cs" />
-    <Compile Include="Messaging\ActionReplyEnvelope.cs" />
-    <Compile Include="Messaging\CorrelatableRepository.cs" />
-    <Compile Include="Messaging\IReplyEnvelope.cs" />
-    <Compile Include="Messaging\PublisherReplyEnvelope.cs" />
-    <Compile Include="Messaging\Repository.cs" />
-    <Compile Include="Messaging\RepositoryItem.cs" />
-    <Compile Include="Messaging\RequestResponseHandler.cs" />
-    <Compile Include="PublishingStrategies\AccessControlListStrategyDecorator.cs" />
-    <Compile Include="Handlers\AccessControlListHandler.cs" />
-    <Compile Include="Messages\AccessControlListMessages.cs" />
-    <Compile Include="PublishingStrategies\ExceptionProcessingStrategyDecorator.cs" />
-    <Compile Include="PublishingStrategies\FlatPublishingStrategy.cs" />
-    <Compile Include="PublishingStrategies\HeirarchicalPublishingStrategy.cs" />
-    <Compile Include="Handlers\IAmTriggeredBy.cs" />
-    <Compile Include="Util\GuidFactory.cs" />
-    <Compile Include="Util\IGuidFactory.cs" />
-    <Compile Include="Util\IMessageTimer.cs" />
-    <Compile Include="PublishingStrategies\UniqueMessageStrategyDecorator.cs" />
-    <Compile Include="PublishingStrategies\PooledMessageStrategyDecorator.cs" />
-    <Compile Include="Util\AccessControlList.cs" />
-    <Compile Include="Util\ICorrelatable.cs" />
-    <Compile Include="Messages\IPooledMessage.cs" />
-    <Compile Include="Messaging\IPublishingStrategy.cs" />
-    <Compile Include="Sagas\ISaga.cs" />
-    <Compile Include="Messaging\MessageHandlerDictionary.cs" />
-    <Compile Include="DataStructures\ObjectPool.cs" />
-    <Compile Include="Messaging\ProxyPublisher.cs" />
-    <Compile Include="Messages\IAccessControlledMessage.cs" />
-    <Compile Include="Util\IAccessControlList.cs" />
-    <Compile Include="Messages\IAccessControlMessage.cs" />
-    <Compile Include="Messaging\PublishingStrategy.cs" />
-    <Compile Include="Sagas\Saga.cs" />
-    <Compile Include="Sagas\SagaContainer.cs" />
-    <Compile Include="PublishingStrategies\MessageTimerStrategyDecorator.cs" />
-    <Compile Include="Messaging\TriggerHandlerProxy.cs" />
-    <Compile Include="Util\Ensure.cs" />
-    <Compile Include="Handlers\IHandle.cs" />
-    <Compile Include="Messaging\IMessageHandlerProxy.cs" />
-    <Compile Include="Logger\ILogger.cs" />
-    <Compile Include="Logger\ILoggerFactory.cs" />
-    <Compile Include="Messaging\IPublisher.cs" />
-    <Compile Include="Messaging\ISubscriber.cs" />
-    <Compile Include="Messaging\MemoryBus.cs" />
-    <Compile Include="Logger\NullLogger.cs" />
-    <Compile Include="Messaging\MessageHandlerProxies.cs" />
-    <Compile Include="Messaging\MessageHandlerProxy.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util\IStopwatch.cs" />
-    <Compile Include="Util\MessageTimer.cs" />
-    <Compile Include="Util\PubSubCommon.cs" />
-    <Compile Include="Util\Stopwatch.cs" />
-    <Compile Include="Util\StringEnumerableExtensions.cs" />
+    <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="CoreMemoryBus.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CoreMemoryBus.Messages\CoreMemoryBus.Messages.csproj">
-      <Project>{f63867c7-d8cd-48b1-891d-c2a43ebf0e9c}</Project>
-      <Name>CoreMemoryBus.Messages</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

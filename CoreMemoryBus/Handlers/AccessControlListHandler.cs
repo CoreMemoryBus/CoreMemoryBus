@@ -52,9 +52,9 @@ namespace CoreMemoryBus.Handlers
             var firstAcl = _acls.FirstOrDefault();
             if (firstAcl != null)
             {
-                var explanation = firstAcl.Explain(new[] {message.Principal}, message.Type);
+                var explanation = firstAcl.Explain(new[] { message.Principal }, message.Type);
                 message.Reply.ReplyWith(
-                    new AccessControlListMessages.AccessControlExplanationResponse(message.CorrelationId, explanation));
+                    new AccessControlListMessages.AccessControlExplanation(message.CorrelationId, explanation));
             }
         }
     }

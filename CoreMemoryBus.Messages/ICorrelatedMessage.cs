@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CoreMemoryBus.Messages
+﻿namespace CoreMemoryBus.Messages
 {
     public interface ICorrelatedMessage<THashKey>
     {

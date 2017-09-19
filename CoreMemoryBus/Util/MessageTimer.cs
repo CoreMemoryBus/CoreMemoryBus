@@ -4,20 +4,30 @@ namespace CoreMemoryBus.Util
 {
     public class MessageTimer : IMessageTimer
     {
-        public static readonly TimeSpan Default = new TimeSpan(0, 0, 0, 0, 50);
-        private readonly Func<IStopwatch> _stopwatchFactory;
+        private readonly IStopwatch _stopwatch;
 
-        public MessageTimer(Func<IStopwatch> stopwatchFactory = null)
+        public MessageTimer(IStopwatch stopwatch)
         {
-            Func<IStopwatch> defaultFactory = () => new Stopwatch();
-            _stopwatchFactory = stopwatchFactory ?? defaultFactory;
-            LogThreshold = Default;
+            _stopwatch = stopwatch;
         }
 
         public TimeSpan LogThreshold { get; set; }
-        public IStopwatch CreateStopwatch()
+
+        public TimeSpan Elapsed => _stopwatch.Elapsed;
+
+        public void Start()
         {
-            return _stopwatchFactory();
+            _stopwatch.Start();
+        }
+
+        public void Restart()
+        {
+            _stopwatch.Restart();
+        }
+
+        public void Stop()
+        {
+            _stopwatch.Stop();
         }
     }
 }

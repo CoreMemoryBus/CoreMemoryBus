@@ -1,4 +1,4 @@
-namespace CoreMemoryBus
+namespace CoreMemoryBus.Handlers
 {
     /// <summary>
     /// Implementors of this interface cause a Saga to be instantiated and initialised.

@@ -46,7 +46,7 @@ namespace CoreMemoryBus.Messaging
             {
                 var msgType = handlerType.GetGenericArguments()[0];
                 var proxyType = typeof(MessageHandlerProxy<>).MakeGenericType(msgType);
-                var handlerProxy = (IMessageHandlerProxy) Activator.CreateInstance(proxyType, this);
+                var handlerProxy = (IMessageHandlerProxy)Activator.CreateInstance(proxyType, this);
                 result.Add(msgType, handlerProxy);
             }
         }

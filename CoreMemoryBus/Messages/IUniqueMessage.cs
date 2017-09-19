@@ -6,4 +6,9 @@ namespace CoreMemoryBus.Messages
     {
         Guid Id { get; }
     }
+
+    public interface IUniqueMessage<T>
+    {
+        T Id { get; }
+    }
 }

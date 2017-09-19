@@ -43,7 +43,7 @@ namespace CoreMemoryBus.Test
             {
                 var messagePool = new TestMessagePool(1);
                 var strategy = new TestPublishingStrategy();
-                var decoratedStrategy = new PooledMessageStrategyDecorator(strategy);
+                var decoratedStrategy = new PooledMessagePublishingStrategy(strategy);
 
                 var newMessage = messagePool.Borrow();
                 // The pool should now be empty and will throw if we borrow again

@@ -1,4 +1,7 @@
-﻿namespace CoreMemoryBus
+﻿using System;
+using System.Text;
+
+namespace CoreMemoryBus.Handlers
 {
     /// <summary>
     /// This interface represents an implementation of a function that handles delivery of a specific message type.

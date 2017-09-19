@@ -1,8 +1,9 @@
+using CoreMemoryBus.Handlers;
 using CoreMemoryBus.Messages;
 
 namespace CoreMemoryBus.Messaging
 {
-    public class MessageHandlerProxy<T> : IMessageHandlerProxy where T:Message
+    public class MessageHandlerProxy<T> : IMessageHandlerProxy where T : Message
     {
         private IHandle<T> MessageHandler { get; set; }
 

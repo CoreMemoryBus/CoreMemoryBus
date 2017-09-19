@@ -1,6 +1,4 @@
 ﻿using System;
-using CoreMemoryBus.Logger;
-//using CoreMemoryBus.Logger;
 using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using CoreMemoryBus.PublishingStrategies;
@@ -40,9 +38,9 @@ namespace CoreMemoryBus.Test
                 aclMock.Setup(x => x.IsDenied(It.IsAny<string[]>(), It.IsAny<Type>())).Returns(true);
                 aclMock.Setup(x => x.IsGranted(It.IsAny<string[]>(), It.IsAny<Type>())).Returns(false);
 
-                var loggerMock = new Mock<ILogger>();
+                var unpublishedMsgSink = new Mock<IMessageSink>();
 
-                var decoratedStrategy = new AccessControlListStrategyDecorator(aclMock.Object, loggerMock.Object, innerStrategy);
+                var decoratedStrategy = new AccessControlListPublishingStrategy(innerStrategy, aclMock.Object, unpublishedMsgSink.Object);
 
                 decoratedStrategy.Publish(new TestMessage());
 
@@ -68,9 +66,9 @@ namespace CoreMemoryBus.Test
                 var aclMock = new Mock<IAccessControlList>();
                 aclMock.Setup(x => x.IsDenied(It.IsAny<string[]>(), It.IsAny<Type>())).Returns(true);
 
-                var loggerMock = new Mock<ILogger>();
+                var unpublishedMsgSink = new Mock<IMessageSink>();
 
-                var decoratedStrategy = new AccessControlListStrategyDecorator(aclMock.Object, loggerMock.Object, innerStrategy);
+                var decoratedStrategy = new AccessControlListPublishingStrategy(innerStrategy, aclMock.Object, unpublishedMsgSink.Object);
 
                 decoratedStrategy.Publish(new TestAccessControlledMessage(new[] { "Anyone" }));
 
@@ -86,9 +84,9 @@ namespace CoreMemoryBus.Test
                 var aclMock = new Mock<IAccessControlList>();
                 aclMock.Setup(x => x.IsGranted(It.IsAny<string[]>(), It.IsAny<Type>())).Returns(false);
 
-                var loggerMock = new Mock<ILogger>();
+                var unpublishedMsgSink = new Mock<IMessageSink>();
 
-                var decoratedStrategy = new AccessControlListStrategyDecorator(aclMock.Object, loggerMock.Object, innerStrategy);
+                var decoratedStrategy = new AccessControlListPublishingStrategy(innerStrategy, aclMock.Object, unpublishedMsgSink.Object);
 
                 decoratedStrategy.Publish(new TestAccessControlledMessage(new[] { "Anyone" }));
 

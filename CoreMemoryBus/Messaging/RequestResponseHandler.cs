@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CoreMemoryBus.Handlers;
 using CoreMemoryBus.Messages;
 
 namespace CoreMemoryBus.Messaging
@@ -12,7 +13,7 @@ namespace CoreMemoryBus.Messaging
     /// invoked once. When a reply has been successfully called-back the reply handler will no longer 
     /// activate with the same correlation Id.
     /// </summary>
-    public class RequestResponseHandler<TCorrelation> : IHandle<Message>
+    public class RequestResponseHandler<TCorrelation> : IHandle<Message>, IRequestResponseHandler<TCorrelation>
     {
         private readonly Dictionary<TCorrelation, IResponseAction> _responseActions = new Dictionary<TCorrelation, IResponseAction>();
         private readonly IPublisher _publisher;
@@ -26,26 +27,32 @@ namespace CoreMemoryBus.Messaging
             where TRequest : Message, ICorrelatedMessage<TCorrelation>
             where TResponse : Message, ICorrelatedMessage<TCorrelation>
         {
-            _responseActions[request.CorrelationId] = new ResponseAction<TResponse>(responseCallback);
+            Await(request.CorrelationId, responseCallback);
             _publisher.Publish(request);
+        }
+
+        public void Await<TResponse>(TCorrelation correlationId, Action<TResponse> responseCallback) where TResponse : Message, ICorrelatedMessage<TCorrelation>
+        {
+            _responseActions[correlationId] = new ResponseAction<TResponse>(responseCallback);
         }
 
         public void Handle(Message message)
         {
             var correlatedMessage = message as ICorrelatedMessage<TCorrelation>;
-            IResponseAction responseAction;
-            if (correlatedMessage == null || !_responseActions.TryGetValue(correlatedMessage.CorrelationId, out responseAction))
+            if (correlatedMessage == null || !_responseActions.TryGetValue(correlatedMessage.CorrelationId, out IResponseAction responseAction))
             {
                 return;
             }
 
-            responseAction.ExecuteAction(message);
-            _responseActions.Remove(correlatedMessage.CorrelationId);
+            if (responseAction.TryExecuteResponse(message))
+            {
+                _responseActions.Remove(correlatedMessage.CorrelationId);
+            }
         }
 
         private interface IResponseAction
         {
-            void ExecuteAction(Message replyMessage);
+            bool TryExecuteResponse(Message replyMessage);
         }
 
         private class ResponseAction<TMessage> : IResponseAction where TMessage : Message
@@ -57,9 +64,15 @@ namespace CoreMemoryBus.Messaging
                 _action = action;
             }
 
-            public void ExecuteAction(Message replyMessage)
+            public bool TryExecuteResponse(Message replyMessage)
             {
-                _action((TMessage)replyMessage);
+                if (replyMessage is TMessage specificReply)
+                {
+                    _action(specificReply);
+                    return true;
+                }
+
+                return false;
             }
         }
     }

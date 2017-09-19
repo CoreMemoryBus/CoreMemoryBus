@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Text;
 
 namespace CoreMemoryBus.DataStructures
 {
@@ -45,3 +46,4 @@ namespace CoreMemoryBus.DataStructures
         public int Count { get { return _container.Count; } }
     }
 }
+

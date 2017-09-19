@@ -12,8 +12,9 @@ namespace CoreMemoryBus.Util
         }
 
         public void Start() { _impl.Start(); }
+        public void Restart() { _impl.Restart(); }
         public void Stop() { _impl.Stop(); }
 
-        public TimeSpan Elapsed { get { return _impl.Elapsed; } }
+        public TimeSpan Elapsed => _impl.Elapsed;
     }
 }

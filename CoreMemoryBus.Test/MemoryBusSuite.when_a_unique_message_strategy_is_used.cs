@@ -15,14 +15,14 @@ namespace CoreMemoryBus.Test
             {
                 int executionCount = 0;
                 var innerStrategy = new TestPublishingStrategy(() => executionCount++);
-                var decoratedStrategy = new UniqueMessageStrategyDecorator(innerStrategy);
+                var decoratedStrategy = new UniqueMessagePublishingStrategy<Guid>(innerStrategy);
                 decoratedStrategy.Publish(new TestMessage());
                 decoratedStrategy.Publish(new TestMessage());
 
                 Assert.That(executionCount, Is.EqualTo(2));
             }
 
-            public class TestUniqueMessage : Message, IUniqueMessage
+            public class TestUniqueMessage : Message, IUniqueMessage<Guid>
             {
                 public TestUniqueMessage(Guid id)
                 {
@@ -40,7 +40,7 @@ namespace CoreMemoryBus.Test
 
                 int executionCount = 0;
                 var innerStrategy = new TestPublishingStrategy(() => executionCount++);
-                var decoratedStrategy = new UniqueMessageStrategyDecorator(innerStrategy);
+                var decoratedStrategy = new UniqueMessagePublishingStrategy<Guid>(innerStrategy);
                 decoratedStrategy.Publish(msg);
                 decoratedStrategy.Publish(msg);
 

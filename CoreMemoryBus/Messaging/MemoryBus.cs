@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
+using CoreMemoryBus.Handlers;
 using CoreMemoryBus.Messages;
 using CoreMemoryBus.PublishingStrategies;
 using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Messaging
 {
-    public class MemoryBus : IPublisher, ISubscriber, IHandle<Message>
+    public class MemoryBus : IMessageBus, IHandle<Message>
     {
         public string Name { get; set; }
 
@@ -18,15 +19,14 @@ namespace CoreMemoryBus.Messaging
             Id = Guid.Empty;
 
             _messageHandlers = new MessageHandlerDictionary();
-            _publishingStrategy = publishingStrategyFactory == null 
-                ? new HeirarchicalPublishingStrategy(_messageHandlers) 
+            _publishingStrategy = publishingStrategyFactory == null
+                ? new HeirarchicalPublishingStrategy(_messageHandlers)
                 : publishingStrategyFactory(_messageHandlers);
         }
 
         public void Publish(Message message)
         {
             Ensure.ArgumentIsNotNull(message, "message");
-
             _publishingStrategy.Publish(message);
         }
 
@@ -79,7 +79,7 @@ namespace CoreMemoryBus.Messaging
         {
             Ensure.ArgumentIsNotNull(messageHandler, "messageHandler");
 
-            var msgType = typeof (T);
+            var msgType = typeof(T);
             MessageHandlerProxies proxies;
             if (_messageHandlers.TryGetValue(msgType, out proxies))
             {

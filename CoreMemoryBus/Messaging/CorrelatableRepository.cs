@@ -1,5 +1,6 @@
 using System;
 using CoreMemoryBus.Messages;
+using CoreMemoryBus.Handlers;
 
 namespace CoreMemoryBus.Messaging
 {
@@ -11,11 +12,9 @@ namespace CoreMemoryBus.Messaging
 
         public void Handle(Message msg)
         {
-            var repoItemMessage = msg as ICorrelatedMessage<THashKey>;
-            if (repoItemMessage != null)
+            if (msg is ICorrelatedMessage<THashKey> repoItemMessage)
             {
-                TRepoItem repoItem;
-                if (RepoItems.TryGetValue(repoItemMessage.CorrelationId, out repoItem))
+                if (RepoItems.TryGetValue(repoItemMessage.CorrelationId, out TRepoItem repoItem))
                 {
                     repoItem.Publish(msg);
                 }

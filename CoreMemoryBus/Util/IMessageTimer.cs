@@ -2,10 +2,8 @@
 
 namespace CoreMemoryBus.Util
 {
-    public interface IMessageTimer
+    public interface IMessageTimer : IStopwatch
     {
         TimeSpan LogThreshold { get; set; }
-
-        IStopwatch CreateStopwatch();
     }
 }

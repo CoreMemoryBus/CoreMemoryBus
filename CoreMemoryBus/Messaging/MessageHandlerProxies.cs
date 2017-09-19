@@ -6,17 +6,14 @@ namespace CoreMemoryBus.Messaging
     public class MessageHandlerProxies : List<IMessageHandlerProxy>
     {
         public MessageHandlerProxies()
-        {}
+        { }
 
         public MessageHandlerProxies(MessageHandlerProxies rhs) : base(rhs)
-        {}
+        { }
 
         public void Publish(Message message)
         {
-            foreach (var proxy in this)
-            {
-                proxy.Publish(message);
-            }
+            this.ForEach(proxy => proxy.Publish(message));
         }
     }
 }
