@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.1</Version>
+    <TargetFramework>netstandard2.0;net462</TargetFramework>
+    <Version>2.0.2</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>M. MacRobert</Authors>
@@ -14,12 +14,12 @@
     <Copyright>Copyright 2017</Copyright>
     <PackageTags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</PackageTags>
     <PackageReleaseNotes>.Net Standard 2.0</PackageReleaseNotes>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
-    <FileVersion>2.0.1.0</FileVersion>
+    <AssemblyVersion>2.0.2.0</AssemblyVersion>
+    <FileVersion>2.0.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CoreMemoryBus.Messages" Version="2.0.0" />
+    <PackageReference Include="CoreMemoryBus.Messages" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
