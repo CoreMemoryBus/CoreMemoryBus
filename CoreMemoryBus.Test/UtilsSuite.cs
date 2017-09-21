@@ -21,64 +21,64 @@ namespace CoreMemoryBus.Test
             public void access_can_be_granted_to_a_principal()
             {
                 var acl = new AccessControlList();
-                Assert.IsFalse(acl.IsGranted(new[] { principal }, msgType));
+                Assert.IsFalse(acl.IsGranted(msgType, principal));
 
-                acl.Grant(principal, msgType);
-                Assert.IsTrue(acl.IsGranted(new[] { principal }, msgType));
+                acl.Grant(msgType, principal);
+                Assert.IsTrue(acl.IsGranted(msgType, principal));
             }
 
             [Test]
             public void granted_access_can_be_revoked()
             {
                 var acl = new AccessControlList();
-                acl.Grant(principal, msgType);
-                Assert.IsTrue(acl.IsGranted(new[] { principal }, msgType));
+                acl.Grant(msgType, principal);
+                Assert.IsTrue(acl.IsGranted(msgType, principal));
 
-                acl.RevokeGrant(principal, msgType);
-                Assert.IsFalse(acl.IsGranted(new[] { principal }, msgType));
+                acl.RevokeGrant(msgType, principal);
+                Assert.IsFalse(acl.IsGranted(msgType, principal));
             }
 
             [Test]
             public void access_can_be_denied_to_a_principal()
             {
                 var acl = new AccessControlList();
-                Assert.IsFalse(acl.IsDenied(new[] { principal }, msgType));
+                Assert.IsFalse(acl.IsDenied(msgType, principal));
 
-                acl.Deny(principal, msgType);
-                Assert.IsTrue(acl.IsDenied(new[] { principal }, msgType));
+                acl.Deny(msgType, principal);
+                Assert.IsTrue(acl.IsDenied(msgType, principal));
             }
 
             [Test]
             public void denied_access_can_be_revoked()
             {
                 var acl = new AccessControlList();
-                acl.Deny(principal, msgType);
-                Assert.IsTrue(acl.IsDenied(new[] { principal }, msgType));
+                acl.Deny(msgType, principal);
+                Assert.IsTrue(acl.IsDenied(msgType, principal));
 
-                acl.RevokeDeny(principal, msgType);
-                Assert.IsFalse(acl.IsDenied(new[] { principal }, msgType));
+                acl.RevokeDeny(msgType, principal);
+                Assert.IsFalse(acl.IsDenied(msgType, principal));
             }
 
             [Test]
             public void access_control_can_be_explained()
             {
                 var acl = new AccessControlList();
-                Assert.IsFalse(acl.IsGranted(new[] { principal }, msgType));
+                Assert.IsFalse(acl.IsGranted(msgType, principal));
 
-                string result = acl.Explain(new[] {principal}, msgType);
+                string result = acl.Explain(msgType, principal);
                 Assert.IsTrue(result.Contains("No access control was configured"));
 
-                acl.Grant(principal, msgType);
-                result = acl.Explain(new[] { principal }, msgType);
+                acl.Grant(msgType, principal);
+                result = acl.Explain(msgType, principal);
                 Assert.IsTrue(result.Contains("Permission granted."));
 
-                result = acl.Explain(new[] { "User" }, msgType);
+                result = acl.Explain(msgType, "User");
                 Assert.IsTrue(result.Contains("No permissions were granted to any principals"));
 
-                acl.RevokeGrant(principal, msgType);
+                acl.RevokeGrant(msgType, principal);
 
-                acl.Deny(principal, msgType);
-                result = acl.Explain(new[] { principal }, msgType);
+                acl.Deny(msgType, principal);
+                result = acl.Explain(msgType, principal);
                 Assert.IsTrue(result.Contains("Permission was explicitly denied"));
             }
         }

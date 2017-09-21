@@ -32,11 +32,11 @@ namespace CoreMemoryBus.PublishingStrategies
             if (aclMsg != null)
             {
                 var msgType = aclMsg.GetType();
-                if (_acl.IsDenied(aclMsg.Principals, msgType) ||
-                    !_acl.IsGranted(aclMsg.Principals, msgType))
+                if (_acl.IsDenied(msgType, aclMsg.Principals) ||
+                    !_acl.IsGranted(msgType, aclMsg.Principals))
                 {
-                    var explanation = _acl.Explain(aclMsg.Principals, msgType);
-                    var unpublishedMsg = new AccessControlListMessages.NotPublishedMessage(message);
+                    var explanation = _acl.Explain(msgType, aclMsg.Principals);
+                    var unpublishedMsg = new AccessControlListMessages.NotPublishedMessage(explanation, message);
                     _unpublishedMsgSink.ReceiveMessage(unpublishedMsg);
 
                     return;

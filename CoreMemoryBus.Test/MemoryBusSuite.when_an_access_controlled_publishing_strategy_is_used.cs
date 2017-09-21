@@ -35,8 +35,8 @@ namespace CoreMemoryBus.Test
                 var innerStrategy = new TestPublishingStrategy(() => hasExecuted = true);
 
                 var aclMock = new Mock<IAccessControlList>();
-                aclMock.Setup(x => x.IsDenied(It.IsAny<string[]>(), It.IsAny<Type>())).Returns(true);
-                aclMock.Setup(x => x.IsGranted(It.IsAny<string[]>(), It.IsAny<Type>())).Returns(false);
+                aclMock.Setup(x => x.IsDenied(It.IsAny<Type>(), It.IsAny<string[]>())).Returns(true);
+                aclMock.Setup(x => x.IsGranted(It.IsAny<Type>(), It.IsAny<string[]>())).Returns(false);
 
                 var unpublishedMsgSink = new Mock<IMessageSink>();
 
@@ -64,7 +64,7 @@ namespace CoreMemoryBus.Test
                 var innerStrategy = new TestPublishingStrategy(() => hasExecuted = true);
 
                 var aclMock = new Mock<IAccessControlList>();
-                aclMock.Setup(x => x.IsDenied(It.IsAny<string[]>(), It.IsAny<Type>())).Returns(true);
+                aclMock.Setup(x => x.IsDenied(It.IsAny<Type>(), It.IsAny<string[]>())).Returns(true);
 
                 var unpublishedMsgSink = new Mock<IMessageSink>();
 
@@ -82,7 +82,7 @@ namespace CoreMemoryBus.Test
                 var innerStrategy = new TestPublishingStrategy(() => hasExecuted = true);
 
                 var aclMock = new Mock<IAccessControlList>();
-                aclMock.Setup(x => x.IsGranted(It.IsAny<string[]>(), It.IsAny<Type>())).Returns(false);
+                aclMock.Setup(x => x.IsGranted(It.IsAny<Type>(), It.IsAny<string[]>())).Returns(false);
 
                 var unpublishedMsgSink = new Mock<IMessageSink>();
 

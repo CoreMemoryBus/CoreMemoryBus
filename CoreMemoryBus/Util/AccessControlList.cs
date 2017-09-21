@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using CoreMemoryBus.DataStructures;
+using System.Collections.Generic;
 
 namespace CoreMemoryBus.Util
 {
@@ -9,7 +10,7 @@ namespace CoreMemoryBus.Util
         private readonly HashSetDictionary<Type, string> _granted = new HashSetDictionary<Type, string>();
         private readonly HashSetDictionary<Type, string> _denied = new HashSetDictionary<Type, string>();
 
-        public bool IsGranted(string[] principals, Type msgType)
+        public bool IsGranted(Type msgType, params string[] principals)
         {
             Ensure.ArgumentIsNotNull(principals, "principals");
             Ensure.ArgumentIsNotNull(msgType, "msgType");
@@ -23,23 +24,26 @@ namespace CoreMemoryBus.Util
             return false;
         }
 
-        public void Grant(string principal, Type msgType)
+        public IAccessControlList Grant(Type msgType, params string[] principals)
         {
-            Ensure.ArgumentIsNotNull(principal, "principal");
+            Ensure.ArgumentIsNotNull(principals, "principals");
             Ensure.ArgumentIsNotNull(msgType, "msgType");
 
-            _granted.Add(msgType, principal);
+            _granted.Add(msgType, new HashSet<string>(principals));
+
+            return this;
         }
 
-        public void RevokeGrant(string principal, Type msgType)
+        public IAccessControlList RevokeGrant(Type msgType, params string[] principals)
         {
-            Ensure.ArgumentIsNotNull(principal, "principal");
+            Ensure.ArgumentIsNotNull(principals, "principals");
             Ensure.ArgumentIsNotNull(msgType, "msgType");
+            _granted.Remove(msgType, new HashSet<string>(principals));
 
-            _granted.Remove(msgType, principal);
+            return this;
         }
 
-        public bool IsDenied(string[] principals, Type msgType)
+        public bool IsDenied(Type msgType, params string[] principals)
         {
             Ensure.ArgumentIsNotNull(principals, "principals");
             Ensure.ArgumentIsNotNull(msgType, "msgType");
@@ -53,23 +57,27 @@ namespace CoreMemoryBus.Util
             return false;
         }
 
-        public void Deny(string principal, Type msgType)
+        public IAccessControlList Deny(Type msgType, params string[] principals)
         {
-            Ensure.ArgumentIsNotNull(principal, "principal");
+            Ensure.ArgumentIsNotNull(principals, "principals");
             Ensure.ArgumentIsNotNull(msgType, "msgType");
 
-            _denied.Add(msgType, principal);
+            _denied.Add(msgType, new HashSet<string>(principals));
+
+            return this;
         }
 
-        public void RevokeDeny(string principal, Type msgType)
+        public IAccessControlList RevokeDeny(Type msgType, params string[] principals)
         {
-            Ensure.ArgumentIsNotNull(principal, "principal");
+            Ensure.ArgumentIsNotNull(principals, "principals");
             Ensure.ArgumentIsNotNull(msgType, "msgType");
 
-            _denied.Remove(msgType, principal);
+            _denied.Remove(msgType, new HashSet<string>(principals));
+
+            return this;
         }
 
-        public string Explain(string[] principals, Type msgType)
+        public string Explain(Type msgType, params string[] principals)
         {
             Ensure.ArgumentIsNotNull(principals, "principals");
             Ensure.ArgumentIsNotNull(msgType, "msgType");

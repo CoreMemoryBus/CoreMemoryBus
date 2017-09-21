@@ -9,42 +9,42 @@ namespace CoreMemoryBus.Messages
         public abstract class AccessControlCommand : Message, IAccessControlMessage, IUniqueMessage
         {
             public Guid Id { get; private set; }
-            public string Principal { get; private set; }
             public Type Type { get; private set; }
+            public string[] Principals { get; private set; }
 
-            protected AccessControlCommand(Guid id, string principal, Type msgType)
+            protected AccessControlCommand(Guid id, Type msgType, params string[] principals)
             {
                 Id = id;
-                Principal = principal;
                 Type = msgType;
+                Principals = principals;
             }
         }
 
         public class Grant : AccessControlCommand
         {
-            public Grant(Guid id, string principal, Type msgType)
-                : base(id, principal, msgType)
+            public Grant(Guid id, Type msgType, params string[] principals)
+                : base(id, msgType, principals)
             { }
         }
 
         public class RevokeGrant : AccessControlCommand
         {
-            public RevokeGrant(Guid id, string principal, Type msgType)
-                : base(id, principal, msgType)
+            public RevokeGrant(Guid id, Type msgType, params string[] principals)
+                : base(id, msgType, principals)
             { }
         }
 
         public class Deny : AccessControlCommand
         {
-            public Deny(Guid id, string principal, Type msgType)
-                : base(id, principal, msgType)
+            public Deny(Guid id, Type msgType, params string[] principals)
+                : base(id, msgType, principals)
             { }
         }
 
         public class RevokeDeny : AccessControlCommand
         {
-            public RevokeDeny(Guid id, string principal, Type msgType)
-                : base(id, principal, msgType)
+            public RevokeDeny(Guid id, Type msgType, params string[] principals)
+                : base(id, msgType, principals)
             { }
         }
 
@@ -62,19 +62,18 @@ namespace CoreMemoryBus.Messages
 
         public class RequestAccessControlExplanation : Message, ICorrelatedMessage<Guid>, IAccessControlMessage
         {
-            public RequestAccessControlExplanation(Guid correlationId, string principal, Type type, IReplyEnvelope reply)
+            public RequestAccessControlExplanation(Guid correlationId, IReplyEnvelope reply, Type type, params string[] principals)
             {
                 CorrelationId = correlationId;
-                Principal = principal;
-                Type = type;
                 Reply = reply;
+                Type = type;
+                Principals = principals;
             }
 
             public Guid CorrelationId { get; private set; }
-            public string Principal { get; private set; }
-            public Type Type { get; private set; }
-
             public IReplyEnvelope Reply { get; private set; }
+            public Type Type { get; private set; }
+            public string[] Principals { get; private set; }
         }
 
         public class AccessControlExplanation : Message, ICorrelatedMessage<Guid>
@@ -92,11 +91,13 @@ namespace CoreMemoryBus.Messages
 
         public class NotPublishedMessage : Message
         {
-            private Message _message;
+            public string Explanation { get; }
+            public Message Message { get; }
 
-            public NotPublishedMessage(Message message)
+            public NotPublishedMessage(string explanation, Message message)
             {
-                _message = message;
+                Explanation = explanation;
+                Message = message;
             }
         }
     }

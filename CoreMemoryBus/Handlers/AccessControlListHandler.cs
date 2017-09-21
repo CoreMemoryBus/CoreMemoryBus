@@ -24,22 +24,22 @@ namespace CoreMemoryBus.Handlers
 
         public void Handle(AccessControlListMessages.Grant message)
         {
-            _acls.ForEach(a => a.Grant(message.Principal, message.Type));
+            _acls.ForEach(a => a.Grant(message.Type, message.Principals));
         }
 
         public void Handle(AccessControlListMessages.RevokeGrant message)
         {
-            _acls.ForEach(a => a.RevokeGrant(message.Principal, message.Type));
+            _acls.ForEach(a => a.RevokeGrant(message.Type, message.Principals));
         }
 
         public void Handle(AccessControlListMessages.Deny message)
         {
-            _acls.ForEach(a => a.Deny(message.Principal, message.Type));
+            _acls.ForEach(a => a.Deny(message.Type, message.Principals));
         }
 
         public void Handle(AccessControlListMessages.RevokeDeny message)
         {
-            _acls.ForEach(a => a.RevokeDeny(message.Principal, message.Type));
+            _acls.ForEach(a => a.RevokeDeny(message.Type, message.Principals));
         }
 
         public void Handle(AccessControlListMessages.InitialiseAccessControlList message)
@@ -52,7 +52,7 @@ namespace CoreMemoryBus.Handlers
             var firstAcl = _acls.FirstOrDefault();
             if (firstAcl != null)
             {
-                var explanation = firstAcl.Explain(new[] { message.Principal }, message.Type);
+                var explanation = firstAcl.Explain(message.Type, message.Principals);
                 message.Reply.ReplyWith(
                     new AccessControlListMessages.AccessControlExplanation(message.CorrelationId, explanation));
             }

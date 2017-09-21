@@ -92,9 +92,15 @@ namespace CoreMemoryBus.DataStructures
         {
             int successCount = 0;
             ISetGrouping<TKey, TElement> grouping;
-            if (innerValues.TryGetValue(key, out grouping))
+            if (TryGetGrouping(key, out grouping))
             {
-                successCount += grouping.Count(element => grouping.Remove(element));
+                foreach(var element in elements)
+                {
+                    if (grouping.Remove(element))
+                    {
+                        ++successCount;
+                    }
+                }
             }
             return successCount;
         }
