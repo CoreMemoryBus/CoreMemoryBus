@@ -50,6 +50,24 @@ namespace CoreMemoryBus.Messaging
             }
         }
 
+        public void Subscribe<T>(IHandle<T> messageHandler, IMessageHandlerProxy proxy) where T : Message
+        {
+            Ensure.ArgumentIsNotNull(messageHandler, "messageHandler");
+
+            MessageHandlerProxies proxies;
+            if (!_messageHandlers.TryGetValue(typeof(T), out proxies))
+            {
+                proxies = new MessageHandlerProxies();
+                _messageHandlers.Add(typeof(T), proxies);
+            }
+
+            if (!proxies.Any(p => p.IsSame(messageHandler)))
+            {
+                proxies.Add(proxy);
+            }
+        }
+
+
         public void Subscribe(object messageHandler)
         {
             Ensure.ArgumentIsNotNull(messageHandler, "messageHandler");

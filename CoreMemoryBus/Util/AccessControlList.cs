@@ -38,6 +38,7 @@ namespace CoreMemoryBus.Util
         {
             Ensure.ArgumentIsNotNull(principals, "principals");
             Ensure.ArgumentIsNotNull(msgType, "msgType");
+
             _granted.Remove(msgType, new HashSet<string>(principals));
 
             return this;

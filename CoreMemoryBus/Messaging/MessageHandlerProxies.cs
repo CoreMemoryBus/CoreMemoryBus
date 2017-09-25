@@ -13,7 +13,7 @@ namespace CoreMemoryBus.Messaging
 
         public void Publish(Message message)
         {
-            this.ForEach(proxy => proxy.Publish(message));
+            ForEach(proxy => proxy.Publish(message));
         }
     }
 }

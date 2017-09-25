@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreMemoryBus.Messaging;
+using CoreMemoryBus.Util;
 
 namespace CoreMemoryBus.Messages
 {
@@ -9,71 +10,77 @@ namespace CoreMemoryBus.Messages
         public abstract class AccessControlCommand : Message, IAccessControlMessage, IUniqueMessage
         {
             public Guid Id { get; private set; }
-            public Type Type { get; private set; }
+            public Type ControlledMessageType { get; private set; }
             public string[] Principals { get; private set; }
+            public string[] AdminPrincipals { get; private set; }
 
-            protected AccessControlCommand(Guid id, Type msgType, params string[] principals)
+            protected AccessControlCommand(Guid id, Type msgType, string[] adminPrincipals, string[] principals)
             {
                 Id = id;
-                Type = msgType;
+                ControlledMessageType = msgType;
                 Principals = principals;
             }
         }
 
         public class Grant : AccessControlCommand
         {
-            public Grant(Guid id, Type msgType, params string[] principals)
-                : base(id, msgType, principals)
+            public Grant(Guid id, Type msgType, string[] adminPrincipals, string[] principals)
+                : base(id, msgType, adminPrincipals, principals)
             { }
         }
 
         public class RevokeGrant : AccessControlCommand
         {
-            public RevokeGrant(Guid id, Type msgType, params string[] principals)
-                : base(id, msgType, principals)
+            public RevokeGrant(Guid id, Type msgType, string[] adminPrincipals, string[] principals)
+                : base(id, msgType, adminPrincipals, principals)
             { }
         }
 
         public class Deny : AccessControlCommand
         {
-            public Deny(Guid id, Type msgType, params string[] principals)
-                : base(id, msgType, principals)
+            public Deny(Guid id, Type msgType, string[] adminPrincipals, string[] principals)
+                : base(id, msgType, adminPrincipals, principals)
             { }
         }
 
         public class RevokeDeny : AccessControlCommand
         {
-            public RevokeDeny(Guid id, Type msgType, params string[] principals)
-                : base(id, msgType, principals)
+            public RevokeDeny(Guid id, Type msgType, string[] adminPrincipals, string[] principals)
+                : base(id, msgType, adminPrincipals, principals)
             { }
         }
 
-        public class InitialiseAccessControlList : Message, IUniqueMessage
+        public class InitialiseAccessControlList : Message, IUniqueMessage, IAclAdminMessage
         {
             public readonly List<AccessControlCommand> AclCommands = new List<AccessControlCommand>();
 
-            public InitialiseAccessControlList(Guid id)
+            public InitialiseAccessControlList(Guid id, params string[] adminPrincipals)
             {
                 Id = id;
+                AdminPrincipals = adminPrincipals;
             }
 
             public Guid Id { get; private set; }
+
+            public string[] AdminPrincipals { get; }
         }
 
         public class RequestAccessControlExplanation : Message, ICorrelatedMessage<Guid>, IAccessControlMessage
         {
-            public RequestAccessControlExplanation(Guid correlationId, IReplyEnvelope reply, Type type, params string[] principals)
+            public RequestAccessControlExplanation(Guid correlationId, IReplyEnvelope reply, Type type, string[] adminPrincipals, string[] principals)
             {
                 CorrelationId = correlationId;
                 Reply = reply;
-                Type = type;
+                ControlledMessageType = type;
                 Principals = principals;
+                AdminPrincipals = adminPrincipals;
             }
 
             public Guid CorrelationId { get; private set; }
             public IReplyEnvelope Reply { get; private set; }
-            public Type Type { get; private set; }
+            public Type ControlledMessageType { get; private set; }
             public string[] Principals { get; private set; }
+            public string[] AdminPrincipals { get; private set; }
         }
 
         public class AccessControlExplanation : Message, ICorrelatedMessage<Guid>
@@ -99,6 +106,17 @@ namespace CoreMemoryBus.Messages
                 Explanation = explanation;
                 Message = message;
             }
+        }
+
+        public const string DefaultAdmin = "Admin";
+
+        public static void ApplyDefaultAdmin(this IAccessControlList acl)
+        {
+            acl.Grant(typeof(Grant), DefaultAdmin)
+               .Grant(typeof(RevokeGrant), DefaultAdmin)
+               .Grant(typeof(Deny), DefaultAdmin)
+               .Grant(typeof(RevokeDeny), DefaultAdmin)
+               .Grant(typeof(InitialiseAccessControlList), DefaultAdmin);
         }
     }
 }

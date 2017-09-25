@@ -1,5 +1,6 @@
 using CoreMemoryBus.Handlers;
 using CoreMemoryBus.Messages;
+using System;
 
 namespace CoreMemoryBus.Messaging
 {

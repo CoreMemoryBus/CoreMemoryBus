@@ -2,9 +2,9 @@
 
 namespace CoreMemoryBus.Messages
 {
-    public interface IAccessControlMessage
+    public interface IAccessControlMessage : IAclAdminMessage
     {
-        Type Type { get; }
+        Type ControlledMessageType { get; }
         string[] Principals { get; }
     }
 }
