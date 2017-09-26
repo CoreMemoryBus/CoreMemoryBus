@@ -6,37 +6,39 @@ namespace CoreMemoryBus.Messaging
 {
     public static class AdviceWeaver
     {
-        public static IMessageHandlerProxy CreateBeforeAdvice<T>(IHandle<T> handler, Action<T> beforeAdvice) where T : Message
+        public static IMessageHandlerProxy<T> AddBeforeAdvice<T>(this IHandle<T> handler, Action<T> beforeAdvice) where T : Message
         {
             return AddBeforeAdvice<T>(new MessageHandlerProxy<T>(handler), beforeAdvice);
         }
 
-        public static IMessageHandlerProxy AddBeforeAdvice<T>(IMessageHandlerProxy proxy, Action<T> beforeAdvice) where T : Message
+        public static IMessageHandlerProxy<T> AddBeforeAdvice<T>(this IMessageHandlerProxy<T> proxy, Action<T> beforeAdvice) where T : Message
         {
             return new BeforeAdviceHandlerProxy<T>(proxy, beforeAdvice);
         }
 
-        public static IMessageHandlerProxy CreateAfterAdvice<T>(IHandle<T> handler, Action<T> afterAdvice) where T : Message
+        public static IMessageHandlerProxy<T> AddAfterAdvice<T>(this IHandle<T> handler, Action<T> afterAdvice) where T : Message
         {
             return AddAfterAdvice(new MessageHandlerProxy<T>(handler), afterAdvice);
         }
 
-        public static IMessageHandlerProxy AddAfterAdvice<T>(IMessageHandlerProxy proxy, Action<T> afterAdvice) where T : Message
+        public static IMessageHandlerProxy<T> AddAfterAdvice<T>(this IMessageHandlerProxy<T> proxy, Action<T> afterAdvice) where T : Message
         {
             return new AfterAdviceHandlerProxy<T>(proxy, afterAdvice);
         }
 
-        public static IMessageHandlerProxy CreateFinallyAdvice<T>(IHandle<T> handler, Action<T> finallyAdvice) where T : Message
+        public static IMessageHandlerProxy<T> AddFinallyAdvice<T>(this IHandle<T> handler, Action<T> finallyAdvice) where T : Message
         {
             return AddFinallyAdvice(new MessageHandlerProxy<T>(handler), finallyAdvice);
         }
 
-        public static IMessageHandlerProxy AddFinallyAdvice<T>(IMessageHandlerProxy proxy, Action<T> finallyAdvice) where T : Message
+        public static IMessageHandlerProxy<T> AddFinallyAdvice<T>(this IMessageHandlerProxy<T> proxy, Action<T> finallyAdvice) where T : Message
         {
             return new FinallyAdviceHandlerProxy<T>(proxy, finallyAdvice);
         }
 
-        internal class BeforeAdviceHandlerProxy<T> : IMessageHandlerProxy where T : Message
+        #region Implementation
+
+        internal class BeforeAdviceHandlerProxy<T> : IMessageHandlerProxy<T> where T : Message
         {
             private readonly IMessageHandlerProxy innerProxy;
             private readonly Action<T> beforeAdvice;
@@ -59,7 +61,7 @@ namespace CoreMemoryBus.Messaging
             }
         }
 
-        internal class AfterAdviceHandlerProxy<T> : IMessageHandlerProxy where T : Message
+        internal class AfterAdviceHandlerProxy<T> : IMessageHandlerProxy<T> where T : Message
         {
             private readonly IMessageHandlerProxy innerProxy;
             private readonly Action<T> afterAdvice;
@@ -82,7 +84,7 @@ namespace CoreMemoryBus.Messaging
             }
         }
 
-        internal class FinallyAdviceHandlerProxy<T> : IMessageHandlerProxy where T : Message
+        internal class FinallyAdviceHandlerProxy<T> : IMessageHandlerProxy<T> where T : Message
         {
             private readonly IMessageHandlerProxy innerProxy;
             private readonly Action<T> finallyAdvice;
@@ -110,5 +112,7 @@ namespace CoreMemoryBus.Messaging
                 this.finallyAdvice = finallyAdvice;
             }
         }
+
+        #endregion
     }
 }

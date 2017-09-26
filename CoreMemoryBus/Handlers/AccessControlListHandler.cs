@@ -8,6 +8,7 @@ using System;
 namespace CoreMemoryBus.Handlers
 {
     public class AccessControlListHandler : ProxyPublisher,
+                                            IHandle<AccessControlListMessages.AccessControlCommand>,
                                             IHandle<AccessControlListMessages.Grant>,
                                             IHandle<AccessControlListMessages.RevokeGrant>,
                                             IHandle<AccessControlListMessages.Deny>,
@@ -27,6 +28,11 @@ namespace CoreMemoryBus.Handlers
         {
             Ensure.ArgumentIsNotNull(acl, "acl");
             _acls.Add(acl);
+        }
+
+        public void Handle(AccessControlListMessages.AccessControlCommand message)
+        {
+            Publish(message);
         }
 
         public void Handle(AccessControlListMessages.Grant message)
@@ -80,16 +86,20 @@ namespace CoreMemoryBus.Handlers
             }
         }
 
-        private void VerifyAcl(IAclAdminMessage message, Action successAction)
+        private void VerifyAcl(IAclAdminMessage adminMessage, Action successAction)
         {
             var firstAcl = _acls.FirstOrDefault();
-            var aclMsgType = message.GetType();
-            var aclPrincipals = message.AdminPrincipals;
+            var aclMsgType = adminMessage.GetType();
+            var aclPrincipals = adminMessage.AdminPrincipals;
 
             if (firstAcl.IsGranted(aclMsgType, aclPrincipals) &&
                 !firstAcl.IsDenied(aclMsgType, aclPrincipals))
             {
                 successAction();
+            }
+            else
+            {
+                _unpublishedMsgSink.ReceiveMessage(adminMessage as Message);
             }
         }
     }

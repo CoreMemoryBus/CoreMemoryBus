@@ -19,6 +19,7 @@ namespace CoreMemoryBus.Messages
                 Id = id;
                 ControlledMessageType = msgType;
                 Principals = principals;
+                AdminPrincipals = adminPrincipals;
             }
         }
 
@@ -54,7 +55,7 @@ namespace CoreMemoryBus.Messages
         {
             public readonly List<AccessControlCommand> AclCommands = new List<AccessControlCommand>();
 
-            public InitialiseAccessControlList(Guid id, params string[] adminPrincipals)
+            public InitialiseAccessControlList(Guid id, string[] adminPrincipals)
             {
                 Id = id;
                 AdminPrincipals = adminPrincipals;
@@ -110,12 +111,12 @@ namespace CoreMemoryBus.Messages
 
         public const string DefaultAdmin = "Admin";
 
-        public static void ApplyDefaultAdmin(this IAccessControlList acl)
+        public static void ApplyAdmin(this IAccessControlList acl, string defaultAdmin = DefaultAdmin)
         {
-            acl.Grant(typeof(Grant), DefaultAdmin)
-               .Grant(typeof(RevokeGrant), DefaultAdmin)
-               .Grant(typeof(Deny), DefaultAdmin)
-               .Grant(typeof(RevokeDeny), DefaultAdmin)
+            acl.Grant(typeof(Grant), defaultAdmin)
+               .Grant(typeof(RevokeGrant), defaultAdmin)
+               .Grant(typeof(Deny), defaultAdmin)
+               .Grant(typeof(RevokeDeny), defaultAdmin)
                .Grant(typeof(InitialiseAccessControlList), DefaultAdmin);
         }
     }
