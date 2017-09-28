@@ -53,7 +53,7 @@ namespace CoreMemoryBus.Messages
 
         public class InitialiseAccessControlList : Message, IUniqueMessage, IAclAdminMessage
         {
-            public readonly List<AccessControlCommand> AclCommands = new List<AccessControlCommand>();
+            public readonly List<Message> AclCommands = new List<Message>();
 
             public InitialiseAccessControlList(Guid id, string[] adminPrincipals)
             {
@@ -66,7 +66,7 @@ namespace CoreMemoryBus.Messages
             public string[] AdminPrincipals { get; }
         }
 
-        public class RequestAccessControlExplanation : Message, ICorrelatedMessage<Guid>, IAccessControlMessage
+        public class RequestAccessControlExplanation : Message, ICorrelatedMessage<Guid>, IAccessControlMessage, IAclAdminMessage
         {
             public RequestAccessControlExplanation(Guid correlationId, IReplyEnvelope reply, Type type, string[] adminPrincipals, string[] principals)
             {
@@ -117,7 +117,7 @@ namespace CoreMemoryBus.Messages
                .Grant(typeof(RevokeGrant), defaultAdmin)
                .Grant(typeof(Deny), defaultAdmin)
                .Grant(typeof(RevokeDeny), defaultAdmin)
-               .Grant(typeof(InitialiseAccessControlList), DefaultAdmin);
+               .Grant(typeof(InitialiseAccessControlList), defaultAdmin);
         }
     }
 }

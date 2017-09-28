@@ -28,14 +28,24 @@ namespace CoreMemoryBus.PublishingStrategies
 
         public void Publish(Message message)
         {
-            var aclMsg = message as IAccessControlledMessage;
-            if (aclMsg != null)
+            string[] principals = null;
+
+            if (message is IAccessControlledMessage aclMsg)
             {
-                var msgType = aclMsg.GetType();
-                if (_acl.IsDenied(msgType, aclMsg.Principals) ||
-                    !_acl.IsGranted(msgType, aclMsg.Principals))
+                principals = aclMsg.Principals;
+            }
+            else if (message is IAclAdminMessage adminMsg)
+            {
+                principals = adminMsg.AdminPrincipals;
+            }
+
+            if (principals != null)
+            {
+                var msgType = message.GetType();
+                if (_acl.IsDenied(msgType, principals) ||
+                    !_acl.IsGranted(msgType, principals))
                 {
-                    var explanation = _acl.Explain(msgType, aclMsg.Principals);
+                    var explanation = _acl.Explain(msgType, principals);
                     var unpublishedMsg = new AccessControlListMessages.NotPublishedMessage(explanation, message);
                     _unpublishedMsgSink.ReceiveMessage(unpublishedMsg);
 

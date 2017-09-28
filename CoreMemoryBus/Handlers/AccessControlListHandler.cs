@@ -4,17 +4,16 @@ using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using CoreMemoryBus.Util;
 using System;
+using static CoreMemoryBus.Messages.AccessControlListMessages;
 
 namespace CoreMemoryBus.Handlers
 {
-    public class AccessControlListHandler : ProxyPublisher,
-                                            IHandle<AccessControlListMessages.AccessControlCommand>,
-                                            IHandle<AccessControlListMessages.Grant>,
-                                            IHandle<AccessControlListMessages.RevokeGrant>,
-                                            IHandle<AccessControlListMessages.Deny>,
-                                            IHandle<AccessControlListMessages.RevokeDeny>,
-                                            IHandle<AccessControlListMessages.InitialiseAccessControlList>,
-                                            IHandle<AccessControlListMessages.RequestAccessControlExplanation>
+    public class AccessControlListHandler : IHandle<Grant>,
+                                            IHandle<RevokeGrant>,
+                                            IHandle<Deny>,
+                                            IHandle<RevokeDeny>,
+                                            IHandle<InitialiseAccessControlList>,
+                                            IHandle<RequestAccessControlExplanation>
     {
         private readonly List<IAccessControlList> _acls = new List<IAccessControlList>();
         private readonly IMessageSink _unpublishedMsgSink;
@@ -30,12 +29,7 @@ namespace CoreMemoryBus.Handlers
             _acls.Add(acl);
         }
 
-        public void Handle(AccessControlListMessages.AccessControlCommand message)
-        {
-            Publish(message);
-        }
-
-        public void Handle(AccessControlListMessages.Grant message)
+        public void Handle(Grant message)
         {
             VerifyAcl(message, () =>
             {
@@ -43,7 +37,7 @@ namespace CoreMemoryBus.Handlers
             });
         }
 
-        public void Handle(AccessControlListMessages.RevokeGrant message)
+        public void Handle(RevokeGrant message)
         {
             VerifyAcl(message, () =>
             {
@@ -51,7 +45,7 @@ namespace CoreMemoryBus.Handlers
             });
         }
 
-        public void Handle(AccessControlListMessages.Deny message)
+        public void Handle(Deny message)
         {
             VerifyAcl(message, () =>
             {
@@ -59,7 +53,7 @@ namespace CoreMemoryBus.Handlers
             });
         }
 
-        public void Handle(AccessControlListMessages.RevokeDeny message)
+        public void Handle(RevokeDeny message)
         {
             VerifyAcl(message, () =>
             {
@@ -67,7 +61,7 @@ namespace CoreMemoryBus.Handlers
             });
         }
 
-        public void Handle(AccessControlListMessages.InitialiseAccessControlList message)
+        public void Handle(InitialiseAccessControlList message)
         {
             VerifyAcl(message, () =>
             {
@@ -75,14 +69,40 @@ namespace CoreMemoryBus.Handlers
             });
         }
 
-        public void Handle(AccessControlListMessages.RequestAccessControlExplanation message)
+        #region Allow more efficient self publication
+
+        private Dictionary<Type, IMessageHandlerProxy> handlers;
+
+        private Dictionary<Type, IMessageHandlerProxy> Handlers { get { return handlers ?? (handlers = InitHandlers(this)); } }
+
+        private static Dictionary<Type, IMessageHandlerProxy> InitHandlers(AccessControlListHandler host)
+        {
+            var handlers = new Dictionary<Type, IMessageHandlerProxy>
+            {
+                { typeof(Grant), new MessageHandlerProxy<Grant>(host) },
+                { typeof(RevokeGrant), new MessageHandlerProxy<RevokeGrant>(host) },
+                { typeof(Deny), new MessageHandlerProxy<Deny>(host) },
+                { typeof(RevokeDeny), new MessageHandlerProxy<RevokeDeny>(host) },
+                { typeof(InitialiseAccessControlList), new MessageHandlerProxy<InitialiseAccessControlList>(host) },
+                { typeof(RequestAccessControlExplanation), new MessageHandlerProxy<RequestAccessControlExplanation>(host) },
+            };
+            return handlers;
+        }
+
+        #endregion
+
+        private void Publish(Message message)
+        {
+            Handlers[message.GetType()].Publish(message);
+        }
+
+        public void Handle(RequestAccessControlExplanation message)
         {
             var firstAcl = _acls.FirstOrDefault();
             if (firstAcl != null)
             {
                 var explanation = firstAcl.Explain(message.ControlledMessageType, message.Principals);
-                message.Reply.ReplyWith(
-                    new AccessControlListMessages.AccessControlExplanation(message.CorrelationId, explanation));
+                message.Reply.ReplyWith(new AccessControlExplanation(message.CorrelationId, explanation));
             }
         }
 
