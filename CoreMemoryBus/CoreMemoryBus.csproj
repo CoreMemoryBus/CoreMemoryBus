@@ -13,6 +13,7 @@
     <Description>A simple and configurable, in-memory message bus for message based event driven applications.</Description>
     <Copyright>Copyright 2017</Copyright>
     <PackageTags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</PackageTags>
+    <PackageReleaseNotes>ACL Performance and bug fixes</PackageReleaseNotes>
     <AssemblyVersion>2.0.6.0</AssemblyVersion>
     <FileVersion>2.0.6.0</FileVersion>
   </PropertyGroup>
