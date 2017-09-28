@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    <Version>2.0.5</Version>
+    <Version>2.0.6</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>M. MacRobert</Authors>
@@ -13,9 +13,8 @@
     <Description>A simple and configurable, in-memory message bus for message based event driven applications.</Description>
     <Copyright>Copyright 2017</Copyright>
     <PackageTags>CQRS Protobuf MemoryBus Notifications Request Response Queries Commands Events</PackageTags>
-    <PackageReleaseNotes>ACL and AOP refinements</PackageReleaseNotes>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <FileVersion>2.0.5.0</FileVersion>
+    <AssemblyVersion>2.0.6.0</AssemblyVersion>
+    <FileVersion>2.0.6.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
