@@ -21,11 +21,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CoreMemoryBus.Messages" Version="2.0.2" />
+    <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <PackageReference Include="CoreMemoryBus.Messages" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
