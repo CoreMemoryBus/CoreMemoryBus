@@ -1,6 +1,7 @@
 ﻿using CoreMemoryBus.Messages;
 using CoreMemoryBus.Messaging;
 using CoreMemoryBus.Util;
+using System.Linq;
 
 namespace CoreMemoryBus.PublishingStrategies
 {
@@ -28,24 +29,23 @@ namespace CoreMemoryBus.PublishingStrategies
 
         public void Publish(Message message)
         {
-            string[] principals = null;
+            User user = null;
 
             if (message is IAccessControlledMessage aclMsg)
             {
-                principals = aclMsg.Principals;
+                user = aclMsg.User;
             }
             else if (message is IAclAdminMessage adminMsg)
             {
-                principals = adminMsg.AdminPrincipals;
+                user = adminMsg.AdminUser;
             }
 
-            if (principals != null)
+            if (user != null)
             {
-                var msgType = message.GetType();
-                if (_acl.IsDenied(msgType, principals) ||
-                    !_acl.IsGranted(msgType, principals))
+                if (_acl.IsDenied(message, user) ||
+                    !_acl.IsGranted(message, user))
                 {
-                    var explanation = _acl.Explain(msgType, principals);
+                    var explanation = _acl.Explain(message, user.AsPrincipal());
                     var unpublishedMsg = new AccessControlListMessages.NotPublishedMessage(explanation, message);
                     _unpublishedMsgSink.ReceiveMessage(unpublishedMsg);
 

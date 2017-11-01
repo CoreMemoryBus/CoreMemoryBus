@@ -1,7 +1,9 @@
-﻿namespace CoreMemoryBus.Messages
+﻿using CoreMemoryBus.Util;
+
+namespace CoreMemoryBus.Messages
 {
     public interface IAclAdminMessage
     {
-        string[] AdminPrincipals { get; }
+        User AdminUser { get; }
     }
 }

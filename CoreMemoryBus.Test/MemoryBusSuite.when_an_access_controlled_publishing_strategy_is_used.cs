@@ -35,8 +35,8 @@ namespace CoreMemoryBus.Test
                 var innerStrategy = new TestPublishingStrategy(() => hasExecuted = true);
 
                 var aclMock = new Mock<IAccessControlList>();
-                aclMock.Setup(x => x.IsDenied(It.IsAny<Type>(), It.IsAny<string[]>())).Returns(true);
-                aclMock.Setup(x => x.IsGranted(It.IsAny<Type>(), It.IsAny<string[]>())).Returns(false);
+                aclMock.Setup(x => x.IsDenied(It.IsAny<Message>(), It.IsAny<User>())).Returns(true);
+                aclMock.Setup(x => x.IsGranted(It.IsAny<Message>(), It.IsAny<User>())).Returns(false);
 
                 var unpublishedMsgSink = new Mock<IMessageSink>();
 
@@ -49,13 +49,15 @@ namespace CoreMemoryBus.Test
 
             public class TestAccessControlledMessage : Message, IAccessControlledMessage
             {
-                public TestAccessControlledMessage(string[] principals)
+                public TestAccessControlledMessage(User user)
                 {
-                    Principals = principals;
+                    User = user;
                 }
 
-                public string[] Principals { get; private set; }
+                public User User { get; }
             }
+
+            static readonly User TestUser = new User { Name = "TestUser", Principals = new PrincipalSet { new Principal { Name = "TestUser" } } };
 
             [Test]
             public void a_message_is_not_executed_if_denied()
@@ -64,13 +66,13 @@ namespace CoreMemoryBus.Test
                 var innerStrategy = new TestPublishingStrategy(() => hasExecuted = true);
 
                 var aclMock = new Mock<IAccessControlList>();
-                aclMock.Setup(x => x.IsDenied(It.IsAny<Type>(), It.IsAny<string[]>())).Returns(true);
+                aclMock.Setup(x => x.IsDenied(It.IsAny<Message>(), It.IsAny<User>())).Returns(true);
 
                 var unpublishedMsgSink = new Mock<IMessageSink>();
 
                 var decoratedStrategy = new AccessControlListPublishingStrategy(innerStrategy, aclMock.Object, unpublishedMsgSink.Object);
 
-                decoratedStrategy.Publish(new TestAccessControlledMessage(new[] { "Anyone" }));
+                decoratedStrategy.Publish(new TestAccessControlledMessage(TestUser));
 
                 Assert.IsFalse(hasExecuted);
             }
@@ -82,13 +84,13 @@ namespace CoreMemoryBus.Test
                 var innerStrategy = new TestPublishingStrategy(() => hasExecuted = true);
 
                 var aclMock = new Mock<IAccessControlList>();
-                aclMock.Setup(x => x.IsGranted(It.IsAny<Type>(), It.IsAny<string[]>())).Returns(false);
+                aclMock.Setup(x => x.IsGranted(It.IsAny<Message>(), It.IsAny<User>())).Returns(false);
 
                 var unpublishedMsgSink = new Mock<IMessageSink>();
 
                 var decoratedStrategy = new AccessControlListPublishingStrategy(innerStrategy, aclMock.Object, unpublishedMsgSink.Object);
 
-                decoratedStrategy.Publish(new TestAccessControlledMessage(new[] { "Anyone" }));
+                decoratedStrategy.Publish(new TestAccessControlledMessage(TestUser));
 
                 Assert.IsFalse(hasExecuted);
             }

@@ -33,7 +33,7 @@ namespace CoreMemoryBus.Handlers
         {
             VerifyAcl(message, () =>
             {
-                _acls.ForEach(a => a.Grant(message.ControlledMessageType, message.Principals));
+                _acls.ForEach(a => a.Grant(message.ControlledMessageType, message.Principal));
             });
         }
 
@@ -41,7 +41,7 @@ namespace CoreMemoryBus.Handlers
         {
             VerifyAcl(message, () =>
             {
-                _acls.ForEach(a => a.RevokeGrant(message.ControlledMessageType, message.Principals));
+                _acls.ForEach(a => a.RevokeGrant(message.ControlledMessageType, message.Principal));
             });
         }
 
@@ -49,7 +49,7 @@ namespace CoreMemoryBus.Handlers
         {
             VerifyAcl(message, () =>
             {
-                _acls.ForEach(a => a.Deny(message.ControlledMessageType, message.Principals));
+                _acls.ForEach(a => a.Deny(message.ControlledMessageType, message.Principal));
             });
         }
 
@@ -57,7 +57,7 @@ namespace CoreMemoryBus.Handlers
         {
             VerifyAcl(message, () =>
             {
-                _acls.ForEach(a => a.RevokeDeny(message.ControlledMessageType, message.Principals));
+                _acls.ForEach(a => a.RevokeDeny(message.ControlledMessageType, message.Principal));
             });
         }
 
@@ -101,7 +101,7 @@ namespace CoreMemoryBus.Handlers
             var firstAcl = _acls.FirstOrDefault();
             if (firstAcl != null)
             {
-                var explanation = firstAcl.Explain(message.ControlledMessageType, message.Principals);
+                var explanation = firstAcl.Explain(message.ControlledMessageType, message.Principal);
                 message.Reply.ReplyWith(new AccessControlExplanation(message.CorrelationId, explanation));
             }
         }
@@ -110,10 +110,10 @@ namespace CoreMemoryBus.Handlers
         {
             var firstAcl = _acls.FirstOrDefault();
             var aclMsgType = adminMessage.GetType();
-            var aclPrincipals = adminMessage.AdminPrincipals;
+            var adminUser = adminMessage.AdminUser;
 
-            if (firstAcl.IsGranted(aclMsgType, aclPrincipals) &&
-                !firstAcl.IsDenied(aclMsgType, aclPrincipals))
+            if (firstAcl.IsGranted((Message)adminMessage, adminUser) &&
+                !firstAcl.IsDenied((Message)adminMessage, adminUser))
             {
                 successAction();
             }
