@@ -8,7 +8,7 @@ namespace CoreMemoryBus.PublishingStrategies
 {
     /// <summary>
     /// HeirarchicalPublishingStrategy will publish to handlers of the message type and to all handlers of it's base classes. 
-    /// This strategy should be used in most use cases. It makes possible the buses as handlers to other busses as well as other
+    /// This strategy should be used in most use cases. It makes possible the buses as handlers to other busses as well as other45
     /// polymorphic use cases.
     /// </summary>
     public class HeirarchicalPublishingStrategy : PublishingStrategy, IPublishingStrategy

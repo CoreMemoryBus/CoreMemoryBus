@@ -3,7 +3,7 @@ using CoreMemoryBus.Messages;
 
 namespace CoreMemoryBus.Messaging
 {
-    public class MessageHandlerProxies : List<IMessageHandlerProxy>
+    public class MessageHandlerProxies : HashSet<IMessageHandlerProxy>
     {
         public MessageHandlerProxies()
         { }
@@ -13,7 +13,10 @@ namespace CoreMemoryBus.Messaging
 
         public void Publish(Message message)
         {
-            ForEach(proxy => proxy.Publish(message));
+            foreach(var proxy in this)
+            {
+                proxy.Publish(message);
+            }
         }
     }
 }
