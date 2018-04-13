@@ -15,3 +15,6 @@ I hope you find it as useful as I have.
 ## Getting Started
 
 Install the [NuGet package](https://www.nuget.org/packages/CoreMemoryBus).
+
+There are lots of examples on how to use CoreMemoryBus in the [Wiki](https://github.com/CoreMemoryBus/CoreMemoryBus/wiki)
+
